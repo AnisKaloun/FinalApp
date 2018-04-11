@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blanc"
+    android:orientation="vertical"
+    android:padding="10dp"
+
+
+    tools:context="com.android.pfe.activity.SignupActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <EditText
+            android:id="@+id/Log_Pseudo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="74dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/Log_Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Log_Pseudo"
+            android:layout_alignStart="@+id/Log_Pseudo"
+            android:layout_below="@+id/Log_Pseudo"
+            android:layout_marginTop="11dp"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/Log_Mdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Log_Email"
+            android:layout_alignStart="@+id/Log_Email"
+            android:layout_below="@+id/Log_Email"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/Log_Email"
+            android:layout_alignBottom="@+id/Log_Email"
+            android:layout_alignParentStart="true"
+            android:text="@string/email"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/Log_Mdp"
+            android:text="@string/mdp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/Log_Pseudo"
+            android:layout_alignBottom="@+id/Log_Pseudo"
+            android:layout_alignParentStart="true"
+            android:text="@string/pseudo"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Log_Mdp"
+            android:layout_alignStart="@+id/Log_Mdp"
+            android:layout_below="@+id/Log_Mdp"
+            android:layout_marginTop="11dp"
+            android:ems="10"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/editText15"
+            android:layout_toStartOf="@+id/editText15"
+            android:text="@string/cmdp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editText15"
+            android:layout_marginTop="47dp"
+            android:text="@string/amc" />
+
+        <EditText
+            android:id="@+id/txtinput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView7"
+            android:layout_alignBottom="@+id/textView7"
+            android:layout_toStartOf="@+id/btadd"
+            android:width="150dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/txtinput"
+            android:layout_alignParentEnd="true"
+            android:text="@string/ajouter" />
+
+
+        <ListView
+            android:id="@+id/ListV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtinput" />
+
+        <Button
+            android:id="@+id/SignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="14dp"
+            android:text="@string/enregistrer"
+            android:textSize="30sp" />
+    </RelativeLayout>
+
+</LinearLayout>

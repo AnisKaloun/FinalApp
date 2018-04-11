@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "35389538491",
+    "firebase_url": "https://apppfe-648e3.firebaseio.com",
+    "project_id": "apppfe-648e3",
+    "storage_bucket": "apppfe-648e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:35389538491:android:51913283bd9caa9a",
+        "android_client_info": {
+          "package_name": "com.example.sadainfo.apppfe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "35389538491-n5ojba4t90nucseh0q6oc6i3p2apam5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt8z-TbG-107dM5J7cuGbd3mNwc3uGcBI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
