@@ -1,5 +1,6 @@
 package com.android.pfe.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +29,7 @@ import com.android.pfe.fragment.HomeFragment;
 import com.android.pfe.fragment.NotificationsFragment;
 import com.android.pfe.fragment.RechercheFragment;
 import com.android.pfe.other.CircleTransform;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -60,6 +62,7 @@ public class MenuActivity extends AppCompatActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -68,7 +71,8 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //get firebase auth instance
+        auth = FirebaseAuth.getInstance();
         mHandler = new Handler();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -105,8 +109,8 @@ public class MenuActivity extends AppCompatActivity {
      */
     private void loadNavHeader() {
         // name, website
-        txtName.setText("UserName");
-        txtWebsite.setText("email");
+        txtName.setText(auth.getCurrentUser().getDisplayName().toString().trim());
+        txtWebsite.setText(auth.getCurrentUser().getEmail().toString().trim());
 
         // loading header background image
         Glide.with(this).load(urlNavHeaderBg)
@@ -335,8 +339,11 @@ public class MenuActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
-            return true;
+            Toast.makeText(getApplicationContext(), "vous allez vous déconnecter", Toast.LENGTH_LONG).show();
+            auth.signOut();
+            finish();
+            startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+          //  return true;
         }
 
         // user is in notifications fragment

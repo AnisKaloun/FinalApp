@@ -80,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Toast.makeText(SignupActivity.this, "Inscription réussie " + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                addUsers();
+                              //  addUsers();
                                 finish();
 
                             } else {
@@ -98,6 +98,7 @@ public class SignupActivity extends AppCompatActivity {
         private void addUsers() {
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //    DatabaseReference ref = FirebaseDatabase.getInstance().getReference(USERS_TABLE);
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(mPseudo.getText().toString().trim())
                     .build();
