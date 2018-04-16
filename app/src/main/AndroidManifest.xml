@@ -25,9 +25,16 @@
 
         </activity>
 
-        <activity android:name=".activity.SignupActivity">
+        <activity android:name=".activity.SignupActivity"/>
+        <activity android:name=".activity.ProfilActivity"/>
+        <activity android:name=".other.Modif_email"/>
+        <activity android:name=".other.Modif_pseudo"/>
+        <activity android:name=".other.MAJ_mot_cle"/>
+        <activity android:name=".other.Acceuil"/>
+        <activity android:name=".other.Modif_mot_de_passe"/>
 
-        </activity>
+
+
     </application>
 
 </manifest>

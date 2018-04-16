@@ -1,14 +1,23 @@
 package com.android.pfe.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.android.pfe.R;
+import com.android.pfe.other.Acceuil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +38,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private ListView  listACTU;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -65,7 +75,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.page_acceuil, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -73,6 +83,68 @@ public class HomeFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //Récupération de la listview créée dans le fichier main.xml
+                listACTU = getView().findViewById(R.id.ListAcceil);
+
+        //Création de la ArrayList qui nous permettra de remplir la listView
+        ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+
+        //On déclare la HashMap qui contiendra les informations pour un item
+        HashMap<String, String> map;
+
+        //Création d'une HashMap pour insérer les informations du premier item de notre listView
+        map = new HashMap<String, String>();
+
+        //on insère un élément titre que l'on récupérera dans le textView titre créé dans le fichier affichageitem.xml
+        map.put("titre", "Titre: Pdf");
+
+        //on insère un élément description que l'on récupérera dans le textView description créé dans le fichier affichageitem.xml
+        map.put("auteur", "Auteur:");
+
+        //********************************************
+        map.put("motcle", "Mots clé:");
+
+
+        //on insère la référence à l'image (converti en String car normalement c'est un int) que l'on récupérera dans l'imageView créé dans le fichier affichageitem.xml
+        map.put("img", String.valueOf(R.drawable.pdf));
+
+        //enfin on ajoute cette hashMap dans la arrayList
+        listItem.add(map);
+
+        //On refait la manip plusieurs fois avec des données différentes pour former les items de notre ListView
+
+
+        //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+        SimpleAdapter mSchedule = new SimpleAdapter(getActivity().getBaseContext(), listItem, R.layout.list_acceuil,
+                new String[]{"img", "titre", "auteur", "motcle"}, new int[]{R.id.img, R.id.titre, R.id.auteur, R.id.motcle});
+
+        //On attribue à notre listView l'adapter que l'on vient de créer
+        listACTU.setAdapter(mSchedule);
+
+        //Enfin on met un écouteur d'évènement sur notre listView
+        listACTU.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            @SuppressWarnings("unchecked")
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                //on récupère la HashMap contenant les infos de notre item (titre, description, img)
+                HashMap<String, String> map = (HashMap<String, String>) listACTU.getItemAtPosition(position);
+                //on créé une boite de dialogue
+                AlertDialog.Builder adb = new AlertDialog.Builder(v.getContext());
+                //on attribue un titre à notre boite de dialogue
+                adb.setTitle("Sélection Item");
+                //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+                adb.setMessage("Votre choix : " + map.get("titre"));
+                //on indique que l'on veut le bouton ok à notre boite de dialogue
+                adb.setPositiveButton("Ok", null);
+                //on affiche la boite de dialogue
+                adb.show();
+            }
+        });
     }
 
     @Override

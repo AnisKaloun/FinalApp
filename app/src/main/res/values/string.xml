@@ -8,25 +8,37 @@
     <string name="action_settings">Settings</string>
     <string name="register">créer un compte</string>
     <string name="Login">Se Connecter</string>
-<!--signup page-->
-    <string name="email">Email</string>
-    <string name="pseudo">Pseudo</string>
-    <string name="mdp">Mot de passe</string>
-    <string name="cmdp">Confirmer le mot de passe</string>
-    <string name="amc">Ajouter mot clé</string>
-    <string name="ajouter">Ajouter</string>
-    <string name="Lmc">Liste des mots clés</string>
-    <string name="modifier">Modifier</string>
-    <string name="enregistrer">Enregistrer</string>
-    <string name="nouveauE">Nouveau Email</string>
-    <string name="ancienE">Ancien Email</string>
-    <string name="maj_motcle">Mettre à jour</string>
-    <string name="ancien_mdp">Ancien mot de passe</string>
-    <string name="nouveau_mdp">Nouveau mot de passe</string>
-    <string name="confir_nouv_mdp">Confirmer le nouveau mot de passe</string>
-    <string name="ancien_pseudo">Ancien pseudo</string>
-    <string name="nouv_psedo">Nouveau pseudo</string>
-    <string name="supp">Supprimer</string>
+ <!--ressources lety-->
+        <string name="email">Email</string>
+        <string name="pseudo">Pseudo</string>
+        <string name="mdp">Mot de passe</string>
+        <string name="cmdp">Confirmer le mot de passe</string>
+        <string name="amc">Ajouter mot clé</string>
+        <string name="ajouter">Ajouter</string>
+        <string name="Lmc">Liste des mots clés</string>
+        <string name="modifier">Modifier</string>
+        <string name="enregistrer">Enregistrer</string>
+        <string name="nouveauE">Nouveau Email</string>
+        <string name="ancienE">Ancien Email</string>
+        <string name="maj_motcle">Mettre à jour</string>
+        <string name="ancien_mdp">Ancien mot de passe</string>
+        <string name="nouveau_mdp">Nouveau mot de passe</string>
+        <string name="confir_nouv_mdp">Confirmer le nouveau mot de passe</string>
+        <string name="ancien_pseudo">Ancien pseudo</string>
+        <string name="nouv_psedo">Nouveau pseudo</string>
+        <string name="supp">Supprimer</string>
+        <string name="lire">Lire</string>
+        <string name="imprimer">Imprimer</string>
+        <string name="telecharger">Telecharger</string>
+        <string name="partager">Partager</string>
+        <string name="titrePDF">Titre:</string>
+        <string name="AuteurPdf">Auteur: </string>
+        <string name="motcléPDF">Motclé: </string>
+        <string name="mdpEtoiles">******** </string>
+
+
+    <!--signup page-->
+
 
     <!-- La barre menu -->
     <string name="nav_home">Fil d\'actualité</string>

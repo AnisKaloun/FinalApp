@@ -1,9 +1,11 @@
+/**
+ * Created by SADA INFO on 10/03/2018.
+ */
 package com.android.pfe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,15 +23,15 @@ import android.widget.Toast;
 
 import com.android.pfe.fragment.ArticleFragment;
 import com.android.pfe.fragment.ContactFragment;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import com.android.pfe.R;
 import com.android.pfe.fragment.HomeFragment;
 import com.android.pfe.fragment.NotificationsFragment;
 import com.android.pfe.fragment.RechercheFragment;
-import com.android.pfe.other.CircleTransform;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -37,13 +39,14 @@ public class MenuActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private View navHeader;
     private ImageView imgNavHeaderBg, imgProfile;
-    private TextView txtName, txtWebsite;
+    private TextView txtName, txtWebsite,profil;
     private Toolbar toolbar;
+    private DatabaseReference mDatabase;
 
 
     // urls to load navigation header background image
     // and profile image
-    private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav-menu-header-bg.jpg";
+   // private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav_header_img.jpg";
 
         // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -64,7 +67,6 @@ public class MenuActivity extends AppCompatActivity {
     private Handler mHandler;
     private FirebaseAuth auth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,8 @@ public class MenuActivity extends AppCompatActivity {
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
         mHandler = new Handler();
-
+        //databse
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -82,16 +85,34 @@ public class MenuActivity extends AppCompatActivity {
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.job);
-        imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+     //   imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
+        if(auth.getCurrentUser()!=null) {
+            if(auth.getCurrentUser().getDisplayName()!=null) {
+                txtName.setText(auth.getCurrentUser().getDisplayName().toString().trim());
+            }
+            txtWebsite.setText(auth.getCurrentUser().getEmail().toString().trim());
+
+        }
+        profil=(TextView) navHeader.findViewById(R.id.Profil);
+        profil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent insc = new Intent(MenuActivity.this,ProfilActivity.class);
+                startActivity(insc);
+
+            }
+        });
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
 
         // load nav menu header data
-        loadNavHeader();
+        //loadNavHeader();
 
+
+        navigationView.getMenu().getItem(4).setActionView(R.layout.menu_dot);
         // initializing navigation menu
         setUpNavigationView();
 
@@ -108,17 +129,14 @@ public class MenuActivity extends AppCompatActivity {
      * name, website, notifications action view (dot)
      */
     private void loadNavHeader() {
-        // name, website
-        txtName.setText(auth.getCurrentUser().getDisplayName().toString().trim());
-        txtWebsite.setText(auth.getCurrentUser().getEmail().toString().trim());
-
+        // name, email
         // loading header background image
-        Glide.with(this).load(urlNavHeaderBg)
+      /*  Glide.with(this).load(urlNavHeaderBg)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imgNavHeaderBg);
 
-        /* Loading profile image
+         Loading profile image
         Glide.with(this).load(urlProfileImg)
                 .crossFade()
                 .thumbnail(0.5f)
@@ -127,7 +145,7 @@ public class MenuActivity extends AppCompatActivity {
                 .into(imgProfile);*/
 
         // showing dot next to notifications label
-        navigationView.getMenu().getItem(4).setActionView(R.layout.menu_dot);
+     //   navigationView.getMenu().getItem(4).setActionView(R.layout.menu_dot);
     }
 
     /***
@@ -349,13 +367,13 @@ public class MenuActivity extends AppCompatActivity {
         // user is in notifications fragment
         // and selected 'Mark all as Read'
         if (id == R.id.action_mark_all_read) {
-            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), " Marquer comme lue", Toast.LENGTH_LONG).show();
         }
 
         // user is in notifications fragment
         // and selected 'Clear All'
         if (id == R.id.action_clear_notifications) {
-            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Supprimer toute les notifications", Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);

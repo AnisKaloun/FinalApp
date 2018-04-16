@@ -3,6 +3,15 @@
 # in /Users/apple/Softwares/adt-bundle-mac-x86_64-20140702/sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
+# Add this global rule
+-keepattributes Signature
+-keepattributes *Annotation*
+# This rule will properly ProGuard all the model classes in
+# the package com.yourcompany.models. Modify to fit the structure
+# of your app.
+
+-keep class  com.android.pfe.other.**{ *; }
+
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
