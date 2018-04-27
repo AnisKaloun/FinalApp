@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.pfe.R;
+
 import com.android.pfe.other.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         auth=FirebaseAuth.getInstance();
+
         final ArrayList<String> arrayList;
         final ArrayAdapter<String> adapter;
         final EditText txtinput ;
@@ -45,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.ListV);
         String [] item = {};
         arrayList = new ArrayList<>(Arrays.asList(item));
-        adapter = new ArrayAdapter<String>(this,R.layout.list_item,R.id.txtitem,arrayList);
+        adapter = new ArrayAdapter<String>(this,R.layout.list_motcle,R.id.txtitem,arrayList);
         listView.setAdapter(adapter);
         txtinput=(EditText)findViewById(R.id.txtinput);
         Button btadd = (Button)findViewById(R.id.btadd);
@@ -55,10 +57,10 @@ public class SignupActivity extends AppCompatActivity {
                 String newitem = txtinput.getText().toString();
                 arrayList.add(newitem);
                 adapter.notifyDataSetChanged();
+                txtinput.setText("");
             }
         });
 
-        setContentView(R.layout.activity_signup);
         mEmail=(EditText)findViewById(R.id.email);
         mPseudo=(EditText)findViewById(R.id.pseudo);
         mMdp=(EditText)findViewById(R.id.mdp);
@@ -122,7 +124,6 @@ public class SignupActivity extends AppCompatActivity {
                                             });
                                     User uti = new User();
                                     uti.addUser(user.getUid(), pseudo, email);
-
 
                                 }
                            //*****************************************************

@@ -35,6 +35,7 @@
         <string name="AuteurPdf">Auteur: </string>
         <string name="motcléPDF">Motclé: </string>
         <string name="mdpEtoiles">******** </string>
+        <string name="supprimer">Supprimer</string>
 
 
     <!--signup page-->

@@ -7,5 +7,8 @@
     <!--color of menu page-->
     <color name="colorPrimary">#d32f2f</color>
     <color name="colorPrimaryDark">#c72c2c</color>
-    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorAccent">#9b303b</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="scrollbar">#1976D2</color>
+
 </resources>

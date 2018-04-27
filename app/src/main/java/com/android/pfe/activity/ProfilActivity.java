@@ -12,10 +12,6 @@ import android.widget.ListView;
 
 
 import com.android.pfe.R;
-import com.android.pfe.other.MAJ_mot_cle;
-import com.android.pfe.other.Modif_email;
-import com.android.pfe.other.Modif_mot_de_passe;
-import com.android.pfe.other.Modif_pseudo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,7 +104,7 @@ public class ProfilActivity extends AppCompatActivity implements OnClickListener
         ListView listView = (ListView)findViewById(R.id.ListV);
         String [] item = {};
         arrayList = new ArrayList<>(Arrays.asList(item));
-        adapter = new ArrayAdapter<String>(this,R.layout.list_item,R.id.txtitem,arrayList);
+        adapter = new ArrayAdapter<String>(this,R.layout.list_motcle,R.id.txtitem,arrayList);
         listView.setAdapter(adapter);
         /*txtinput=(EditText)findViewById(R.id.txtinput);
         Button btadd = (Button)findViewById(R.id.btadd);

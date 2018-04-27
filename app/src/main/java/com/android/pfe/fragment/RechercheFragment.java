@@ -8,8 +8,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.android.pfe.R;
+import com.android.pfe.other.Article;
+import com.android.pfe.other.ArticleAdaptor;
+import com.android.pfe.other.ContactAdaptor;
+import com.android.pfe.other.HomeAdaptor;
+import com.android.pfe.other.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +37,7 @@ import com.android.pfe.R;
  * create an instance of this fragment.
  */
 public class RechercheFragment extends Fragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +48,11 @@ public class RechercheFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private RadioGroup mRdGrp;
+    private View mSearch;
+    private ArrayList<Article> Recherche;
+    private HomeAdaptor adaptor;
+    private TextView mTextSearch;
 
     public RechercheFragment() {
         // Required empty public constructor
@@ -68,6 +91,68 @@ public class RechercheFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_recherche, container, false);
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ListView list =getView().findViewById(R.id.rechercheframe);
+        mRdGrp=(RadioGroup)getView().findViewById(R.id.radioGroup);
+        mSearch=getView().findViewById(R.id.search_btn);
+        mTextSearch=(TextView)getView().findViewById(R.id.search_field);
+        Recherche = new ArrayList<Article>();
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Recherche.clear();
+                int rd_id=mRdGrp.getCheckedRadioButtonId();
+                Query query;
+                if(rd_id==R.id.radioButton_auteur)
+                {
+                     query= FirebaseDatabase.getInstance().getReference("Article")
+                            .orderByChild("auteur")
+                            .equalTo(mTextSearch.getText().toString().trim());
+                    //recherche par auteur
+                    query.addValueEventListener(valueEventListener);
+                }
+                else
+                {
+                     query= FirebaseDatabase.getInstance().getReference("Article")
+                            .orderByChild("titre")
+                            .equalTo(mTextSearch.getText().toString().trim());
+                    //recherche par titre
+                    query.addValueEventListener(valueEventListener);
+
+                }
+            }
+        });
+        
+
+        adaptor = new HomeAdaptor(getActivity(),Recherche);
+
+        list.setAdapter(adaptor);
+
+    }
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            Recherche.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Article article = snapshot.getValue(Article.class);
+                    Recherche.add(article);
+                }
+
+                adaptor.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

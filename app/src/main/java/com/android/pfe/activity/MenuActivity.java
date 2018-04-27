@@ -250,6 +250,7 @@ public class MenuActivity extends AppCompatActivity {
                     case R.id.home:
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_HOME;
+
                         break;
                     case R.id.nav_contact:
                         navItemIndex = 1;
@@ -270,6 +271,7 @@ public class MenuActivity extends AppCompatActivity {
                         break;
                     default:
                         navItemIndex = 0;
+                        CURRENT_TAG = TAG_HOME;
                 }
 
                 //Checking if the item is in checked state or not, if not make it in checked state

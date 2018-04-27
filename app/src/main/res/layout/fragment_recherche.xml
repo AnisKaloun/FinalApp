@@ -1,7 +1,93 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.pfe.fragment.RechercheFragment">
+    android:orientation="vertical">
 
-</FrameLayout>
+    <!-- Editext for Search -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/search_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="33dp"
+            android:background="@drawable/search_layout"
+            android:ems="10"
+            android:hint="Chercher içi......"
+            android:inputType="textPersonName"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:textColor="#999999"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/search_field"
+            android:layout_marginEnd="60dp"
+            android:text="Chercher"
+            />
+
+    </RelativeLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:checkedButton="@+id/radioButton_auteur"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:id="@+id/radioButton_auteur"
+            android:layout_width="42dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:text="Auteur" />
+
+        <RadioButton
+            android:id="@+id/radioButton_titre"
+            android:layout_width="97dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:text="Titre" />
+    </RadioGroup>
+
+</LinearLayout>
+
+    <ListView
+        android:id="@+id/rechercheframe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="16dp"
+        android:scrollbarSize="4dp"
+        android:scrollbarThumbVertical="@drawable/scrollbar"
+        android:scrollbars="vertical"
+        tools:context="com.android.pfe.fragment.ContactFragment">
+    </ListView>
+
+
+</LinearLayout>
