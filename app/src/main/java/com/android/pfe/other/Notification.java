@@ -10,16 +10,10 @@ import java.util.List;
 
 public class Notification implements Serializable {
     private boolean State;
-    private List<Message> mMessages;
 
     public Notification(){
-        mMessages=new ArrayList<>();
-    }
 
-    public List<Message> getMessages() {
-        return mMessages;
     }
-
 
 
     public boolean isState() {
@@ -28,10 +22,6 @@ public class Notification implements Serializable {
 
     public void setState(boolean state) {
         State = state;
-    }
-    public void addMessages(Message mp)
-    {
-        mMessages.add(mp);
     }
 
 

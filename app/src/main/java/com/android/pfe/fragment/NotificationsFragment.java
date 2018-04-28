@@ -98,7 +98,7 @@ public class NotificationsFragment extends Fragment {
         auth= FirebaseAuth.getInstance();
         notificationList= new ArrayList<Message>();
         mDatabase= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
-                .child("Notification");
+                .child("Notification").child("Message");
         mDatabase.addValueEventListener(valueEventListener);
         adaptor = new NotificationAdaptor(getActivity(),notificationList);
 

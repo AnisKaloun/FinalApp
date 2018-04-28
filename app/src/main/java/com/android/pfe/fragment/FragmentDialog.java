@@ -74,21 +74,14 @@ public class FragmentDialog extends DialogFragment{
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               User uti=(User)parent.getAdapter().getItem(position);
               Log.w("Dialog","uti"+uti.username);
-              uti.addNotification(mArticleSent,uti);
+              //on dois check les notification si il existe ou pas si sa existe alors on rajoute un message et l'etat change sinon
+              //on crée une nouvelle notif
+             uti.addNotification(mArticleSent,uti);
           }
       });
 
 
-/*
-        adaptor.setListener(new DialogAdaptor.onClicked() {
-    @Override
-    public void checkedListener(User user) {
-//user c le recepteur de la notif
-//marticle C l'article a partager
-//on ecrit dans le user une notif
-user.addNotification(mArticleSent,user);
-    }
-});*/
+
 
     }
 

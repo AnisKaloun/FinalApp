@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Message implements Serializable{
     private String mArticleTitle;
-    private String mUserId;
+    private String mUserUsername;
 public Message(){
 
 }
    public Message(String anticlerical,String userId)
    {
        this.mArticleTitle=anticlerical;
-       this.mUserId=userId;
+       this. mUserUsername=userId;
    }
 
     public String getArticleId() {
@@ -22,11 +22,11 @@ public Message(){
         mArticleTitle = articleId;
     }
 
-    public String getUserId() {
-        return mUserId;
+    public String getUserUsername() {
+        return  mUserUsername;
     }
 
-    public void setUserId(String userId) {
-        mUserId = userId;
+    public void setUserUsername(String userId) {
+        mUserUsername = userId;
     }
 }

@@ -79,61 +79,61 @@ public class User implements Serializable {
         DatabaseReference user = mDatabase.child(UserId);
         final DatabaseReference friendlist = user.child("contact");
         checkUser(email, new ICheckUserListener() {
-        @Override
-        public void onSuccess(final Map value) {
-            friendlist.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    boolean bool=false;
-                    if(dataSnapshot.exists()) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Map<String, String> map = (Map) snapshot.getValue();
-                            if(map.get("email").equals(email))
+            @Override
+            public void onSuccess(final Map value) {
+                friendlist.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean bool=false;
+                        if(dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Map<String, String> map = (Map) snapshot.getValue();
+                                if(map.get("email").equals(email))
+                                {
+                                    bool=true;
+                                }
+
+
+                            }
+                            if(bool==false)
                             {
-                            bool=true;
+                                HashMap<String, String> Hmap = new HashMap<>();
+                                Hmap.put("email", "" + email.toString().trim());
+                                Hmap.put("username", "" + value.get("username").toString().trim());
+                                Hmap.put("Uid",""+value.get("Uid").toString().trim());
+                                friendlist.push().setValue(Hmap);
                             }
 
-
                         }
-                        if(bool==false)
+                        else
                         {
-                            HashMap<String, String> Hmap = new HashMap<>();
-                            Hmap.put("email", "" + email.toString().trim());
-                            Hmap.put("username", "" + value.get("username").toString().trim());
-                            Hmap.put("Uid",""+value.get("Uid").toString().trim());
-                            friendlist.push().setValue(Hmap);
+                            Map<String, String> map;
+                            map = new HashMap<>();
+                            map.put("email", "" + email.toString().trim());
+                            map.put("username", "" + value.get("username").toString().trim());
+                            map.put("Uid",""+value.get("Uid").toString().trim());
+                            Log.w("UserClass", "i'm in map==null");
+                            friendlist.push().setValue(map);
+
                         }
 
                     }
-                    else
-                    {
-                        Map<String, String> map;
-                        map = new HashMap<>();
-                        map.put("email", "" + email.toString().trim());
-                        map.put("username", "" + value.get("username").toString().trim());
-                        map.put("Uid",""+value.get("Uid").toString().trim());
-                        Log.w("UserClass", "i'm in map==null");
-                        friendlist.push().setValue(map);
+
+
+
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
+                });
+            }
 
-                    }
+            @Override
+            public void onError(Exception e) {
 
-
-
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-        @Override
-        public void onError(Exception e) {
-
-        }
-    });
+            }
+        });
 
     }
     public void checkUser(String email, final ICheckUserListener listener) {
@@ -204,20 +204,23 @@ public class User implements Serializable {
 
     }
 
-    public void addNotification (Article article,User user){
+    public void addNotification (final Article article, final User user){
 
         mDatabase = FirebaseDatabase.getInstance().getReference("User");
         DatabaseReference uti = mDatabase.child(user.Uid);
-        DatabaseReference notif=uti.child("Notification");
+        final DatabaseReference notif=uti.child("Notification");
+        final DatabaseReference message=notif.child("Message");
         mNotifications=new Notification();
         mNotifications.setState(true);
-        Message mp=new Message(article.getTitre(),user.Uid);
-        mNotifications.addMessages(mp);
-        Log.w("User","notification state"+mNotifications.isState()+"message :"+mNotifications.getMessages());
+        notif.setValue(mNotifications);
+        Message mp=new Message(article.getTitre(),user.getUsername());
+        message.push().setValue(mp);
+        Log.w("User","notification state"+mNotifications.isState()+"message :");
 
 
 
     }
+
 
 
 }
