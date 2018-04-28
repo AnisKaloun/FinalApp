@@ -1,7 +1,5 @@
 package com.android.pfe.other;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +24,12 @@ public class NotificationAdaptor extends ArrayAdapter<Message> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-        Message item = (Message) getItem(position);
+        Message item = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_notification, parent, false);
         }
-        TextView message = (TextView)convertView.findViewById(R.id.ListMessage);
-        message.setText(""+item.getUserId()+"vous a recommandé "+item.getArticleId());
+        TextView message = convertView.findViewById(R.id.ListMessage);
+        message.setText(""+item.getUserUsername()+" vous a recommandé "+item.getArticleId());
         return convertView;
     }
 }
