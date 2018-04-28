@@ -1,25 +1,20 @@
 package com.android.pfe.fragment;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.android.pfe.R;
 import com.android.pfe.other.Article;
 import com.android.pfe.other.HomeAdaptor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,13 +25,11 @@ import java.util.HashMap;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-    private String TAG;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private String TAG;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -106,7 +99,7 @@ public class HomeFragment extends Fragment {
         adaptor.setListener(new HomeAdaptor.onChecked() {
             @Override
             public void checkedListener(Article article) {
-                FragmentDialog fd=new FragmentDialog(article);
+                FragmentDialogShare fd=new FragmentDialogShare(article);
                 fd.setTargetFragment(HomeFragment.this,1);
                 fd.show(getFragmentManager(),"MyDialog");
             }

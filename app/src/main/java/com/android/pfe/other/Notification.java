@@ -1,8 +1,6 @@
 package com.android.pfe.other;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by SADA INFO on 26/04/2018.
@@ -10,7 +8,7 @@ import java.util.List;
 
 public class Notification implements Serializable {
     private boolean State;
-
+//state false means no notifications
     public Notification(){
 
     }

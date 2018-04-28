@@ -13,7 +13,6 @@ import android.widget.ListView;
 import com.android.pfe.R;
 import com.android.pfe.other.Article;
 import com.android.pfe.other.DialogAdaptor;
-import com.android.pfe.other.Message;
 import com.android.pfe.other.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,63 +27,13 @@ import java.util.ArrayList;
  * Created by SADA INFO on 24/04/2018.
  */
 
-public class FragmentDialog extends DialogFragment{
+public class FragmentDialogShare extends DialogFragment{
+    private static final String TAG = "MyDialog";
     ListView mListView;
     private FirebaseAuth auth;
     private ArrayList<User> contactList;
     private DatabaseReference mDatabase,mData;
     private DialogAdaptor adaptor;
-    private Article mArticleSent;
-    private static final String TAG = "MyDialog";
-
-    public FragmentDialog(){
-
-    }
-
-    @SuppressLint("ValidFragment")
-    public FragmentDialog(Article article) {
-        this.mArticleSent=article;
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View root= inflater.inflate(R.layout.dialog_share, container, false);
-        getDialog().setTitle("Mes Contacts");
-
-        return root;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        auth = FirebaseAuth.getInstance();
-        contactList= new ArrayList<User>();
-        mListView=(ListView) getView().findViewById(R.id.Shareframe);
-        mDatabase= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
-                .child("contact");
-
-        mDatabase.addValueEventListener(valueEventListener);
-        adaptor = new DialogAdaptor(getActivity(),contactList);
-        mListView.setAdapter(adaptor);
-      mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-          @Override
-          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              User uti=(User)parent.getAdapter().getItem(position);
-              Log.w("Dialog","uti"+uti.username);
-              //on dois check les notification si il existe ou pas si sa existe alors on rajoute un message et l'etat change sinon
-              //on crée une nouvelle notif
-             uti.addNotification(mArticleSent,uti);
-          }
-      });
-
-
-
-
-    }
-
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -104,6 +53,56 @@ public class FragmentDialog extends DialogFragment{
 
         }
     };
+    private Article mArticleSent;
+
+    public FragmentDialogShare(){
+
+    }
+
+    @SuppressLint("ValidFragment")
+    public FragmentDialogShare(Article article) {
+        this.mArticleSent=article;
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View root= inflater.inflate(R.layout.dialog_share, container, false);
+        getDialog().setTitle("Mes Contacts");
+
+        return root;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+        contactList= new ArrayList<User>();
+        mListView= getView().findViewById(R.id.Shareframe);
+        mDatabase= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
+                .child("contact");
+
+        mDatabase.addValueEventListener(valueEventListener);
+        adaptor = new DialogAdaptor(getActivity(),contactList);
+        mListView.setAdapter(adaptor);
+      mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+              User uti=(User)parent.getAdapter().getItem(position);
+              Log.w("Dialog","uti"+uti.username);
+              //on dois check les notification si il existe ou pas si sa existe alors on rajoute un message et l'etat change sinon
+              //on crée une nouvelle notif
+             uti.addNotification(mArticleSent,uti);
+             dismiss();
+          }
+      });
+
+
+
+
+    }
 
 
 }

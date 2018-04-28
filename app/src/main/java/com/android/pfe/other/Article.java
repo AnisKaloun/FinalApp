@@ -1,7 +1,6 @@
 package com.android.pfe.other;
 
 import android.support.annotation.Keep;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,8 +16,8 @@ public class Article implements Serializable {
     private String titre;
     private String auteur;
     private String mot_cle;
+    private String articleId;
     private float note ;
-
 
     public Article() {
 
@@ -32,6 +31,9 @@ public class Article implements Serializable {
         this.mot_cle = mot_cle;
     }
 
+    public String getArticleId() {
+        return articleId;
+    }
 
     public String getAuteur() {
         return auteur;
