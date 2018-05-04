@@ -13,7 +13,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +26,7 @@ public class User implements Serializable {
     public String email;
     public ArrayList<User> contact;
     public String Uid;
+    public Map motcle;
     public DatabaseReference mDatabase;
     public Notification mNotifications;
 
@@ -50,6 +50,15 @@ public class User implements Serializable {
 
 
     }
+    public User(String username, String email,String uid,Map map) {
+        this.username = username;
+        this.email = email;
+        this.contact= new ArrayList<>();
+        this.Uid=uid;
+        this.motcle.putAll(map);
+
+
+    }
 
     public String getUsername() {
         return username;
@@ -69,10 +78,53 @@ public class User implements Serializable {
 
     public void addUser(String UserId, String name, String email) {
         mDatabase = FirebaseDatabase.getInstance().getReference("User");
-        User user = new User(name, email,UserId);
-        mDatabase.child(UserId).setValue(user);
+
+            User user = new User(name, email,UserId);
+            mDatabase.child(UserId).setValue(user);
+    }
+    public void addMotcle(final Map motcle, String Userid)
+    {
+        mDatabase = FirebaseDatabase.getInstance().getReference("User");
+        DatabaseReference user = mDatabase.child(Userid);
+        final DatabaseReference keylist = user.child("motcle");
+        keylist.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists())
+                {
+                    Map<String,Integer> map = (Map) dataSnapshot.getValue();
+                    Map<String,Integer>Hmap= new HashMap<>();
+                    Hmap.putAll(map);
+                    //if there is duplicate we incremente les mots clé
+                    for (Object key : motcle.keySet()) {
+                        if (Hmap.containsKey(key)) {
+                            Hmap.put((String)key, Hmap.get(key) +1);
+                        }
+                        else
+                        {
+                            Hmap.put((String) key,1);
+                        }
+                    }
+                   keylist.setValue(Hmap);
+
+                }
+                else
+                {
+                 keylist.setValue(motcle);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
     }
+
     public void addFriend(final String UserId, final String email)
     {
         mDatabase = FirebaseDatabase.getInstance().getReference("User");
@@ -221,7 +273,12 @@ public class User implements Serializable {
 
     }
 
+    public void recommand(String UserId)
+    {
 
+
+
+    }
 
 }
 

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="378dp">
+
+
+        <EditText
+            android:id="@+id/id_titre"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/id_motcle"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/id_motcle"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/ajouter"
+            android:layout_width="121dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/id_motcle"
+            android:layout_marginTop="-12dp"
+            android:text="@string/ajouter"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/id_motcle"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="163dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/str_titre"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_alignBaseline="@+id/id_titre"
+            android:layout_alignEnd="@+id/str_motcle"
+            android:layout_alignRight="@+id/str_motcle"
+            android:text="@string/titrePDF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/str_motcle"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/id_motcle"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:text="@string/motcléPDF"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/ListV"
+            android:layout_width="match_parent"
+            android:layout_height="157dp"
+
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/lien"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="65dp"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/addPDF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="96dp"
+            android:text="@string/choisirPDF"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="382dp">
+
+        <Button
+            android:id="@+id/id_enregistrer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="82dp"
+            android:layout_marginRight="82dp"
+            android:text="@string/enregistrer"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

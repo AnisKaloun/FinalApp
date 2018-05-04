@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * Created by lety2018 on 15/04/2018.
@@ -13,11 +14,13 @@ import java.io.Serializable;
 @Keep
 public class Article implements Serializable {
 
+    private static final String TAG ="Article";
+    public String mMot_cle;
     private String titre;
     private String auteur;
-    private String mot_cle;
     private String articleId;
     private float note ;
+    private String Userid;
 
     public Article() {
 
@@ -25,10 +28,13 @@ public class Article implements Serializable {
 
     }
 
-    public Article(String titre, String auteur, String mot_cle) {
+    public Article(String user, String articleId, String titre, String auteur,String mot_cle) {
+
         this.auteur = auteur;
         this.titre = titre;
-        this.mot_cle = mot_cle;
+        this.Userid=user;
+        this.articleId=articleId;
+        this.mMot_cle=mot_cle;
     }
 
     public String getArticleId() {
@@ -46,15 +52,42 @@ public class Article implements Serializable {
         return note;
     }
 
-    public String getMot_cle() {
-        return mot_cle;
+    public void addArticle(String user,String auteur, String titre,HashMap map)
+    {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+        String id= database.child("Article").push().getKey();
+        if(map.isEmpty()==false) {
+
+            String mot="";
+            for (Object s : map.keySet())
+            {
+                mot += s + " ";
+            }
+            Article dc = new Article(user,id,titre,auteur,mot);
+            database.child("Article").child(id).setValue(dc);
+            database.child("Article").child(id).child("motcle").setValue(map);
+        }
+        else
+               {
+
+                Article dc = new Article(user,id,titre,auteur,"");
+                database.child("Article").child(id).setValue(dc);
+
+               }
+
+
+
+
     }
 
-    public void addArticle(String auteur, String titre, String mot_cle) {
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        Article dc = new Article(auteur,titre,mot_cle);
-        database.child("Article").push().setValue(dc);
+    public String getid() {
+        return Userid;
+    }
+
+    public String getMot_cle() {
+        return mMot_cle;
     }
 }
 

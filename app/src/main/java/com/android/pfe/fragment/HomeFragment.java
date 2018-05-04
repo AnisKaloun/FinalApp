@@ -89,10 +89,6 @@ public class HomeFragment extends Fragment {
 
 
 
-        mydata.add(new Article("Titre :PDF_HTML","letissia","anir celine"));
-        mydata.add(new Article("Title :23","Manyl","anir ** celine"));
-        mydata.add(new Article("Titre :45","Kamyl","anes celine"));
-        mydata.add(new Article("Titre :54","Yanisse","Anesceline"));
 
 
         HomeAdaptor adaptor = new HomeAdaptor(getActivity(),mydata);

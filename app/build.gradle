@@ -33,5 +33,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
+   compile 'com.nbsp:library:1.8'
+
 }
 apply plugin: 'com.google.gms.google-services'

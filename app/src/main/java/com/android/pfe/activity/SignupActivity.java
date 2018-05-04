@@ -1,10 +1,10 @@
 package com.android.pfe.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.pfe.R;
-
 import com.android.pfe.other.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +25,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 @Keep
 public class SignupActivity extends AppCompatActivity {
@@ -44,13 +44,13 @@ public class SignupActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter;
         final EditText txtinput ;
         setContentView(R.layout.activity_signup);
-        ListView listView = (ListView)findViewById(R.id.ListV);
+        ListView listView = findViewById(R.id.ListV);
         String [] item = {};
         arrayList = new ArrayList<>(Arrays.asList(item));
         adapter = new ArrayAdapter<String>(this,R.layout.list_motcle,R.id.txtitem,arrayList);
         listView.setAdapter(adapter);
-        txtinput=(EditText)findViewById(R.id.txtinput);
-        Button btadd = (Button)findViewById(R.id.btadd);
+        txtinput= findViewById(R.id.txtinput);
+        Button btadd = findViewById(R.id.btadd);
         btadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,15 +61,16 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        mEmail=(EditText)findViewById(R.id.email);
-        mPseudo=(EditText)findViewById(R.id.pseudo);
-        mMdp=(EditText)findViewById(R.id.mdp);
-        mEnregistrer=(Button) findViewById(R.id.enregCompte);
+        mEmail= findViewById(R.id.email);
+        mPseudo= findViewById(R.id.pseudo);
+        mMdp= findViewById(R.id.mdp);
+        mEnregistrer= findViewById(R.id.enregCompte);
 
     mEnregistrer.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-             final String email = mEmail.getText().toString().trim();
+
+            final String email = mEmail.getText().toString().trim();
             String password = mMdp.getText().toString().trim();
              final String pseudo =mPseudo.getText().toString().trim();
 
@@ -124,6 +125,14 @@ public class SignupActivity extends AppCompatActivity {
                                             });
                                     User uti = new User();
                                     uti.addUser(user.getUid(), pseudo, email);
+                                    if(arrayList.isEmpty()==false) {
+                                        final HashMap<String, Integer> map = new HashMap<>();
+                                        for (int i = 0; i < arrayList.size(); i++) {
+                                            map.put(arrayList.get(i),1);
+                                        }
+                                        uti.addMotcle(map, user.getUid());
+                                    }
+
 
                                 }
                            //*****************************************************
