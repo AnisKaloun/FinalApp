@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">Pfe</string>
     <string name="title_activity_menu">menu</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -10,6 +10,7 @@
     <string name="Login">Se Connecter</string>
  <!--ressources lety-->
         <string name="email">Email</string>
+        <string name="url">Lien</string>
         <string name="pseudo">Pseudo</string>
         <string name="mdp">Mot de passe</string>
         <string name="cmdp">Confirmer le mot de passe</string>

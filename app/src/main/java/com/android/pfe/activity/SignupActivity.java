@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.pfe.R;
+import com.android.pfe.other.Article;
 import com.android.pfe.other.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +26,6 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 @Keep
 public class SignupActivity extends AppCompatActivity {
@@ -33,6 +33,10 @@ public class SignupActivity extends AppCompatActivity {
     private EditText mEmail,mPseudo,mMdp;
     private Button mEnregistrer;
     private FirebaseAuth auth;
+    private int cpt=1;
+    private ArrayList articleList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +47,14 @@ public class SignupActivity extends AppCompatActivity {
         final ArrayList<String> arrayList;
         final ArrayAdapter<String> adapter;
         final EditText txtinput ;
+        articleList=new ArrayList();
         setContentView(R.layout.activity_signup);
-        ListView listView = findViewById(R.id.ListV);
+        ListView listViewMotCle = findViewById(R.id.ListVMotcle);
+        ListView listViewArticle=findViewById(R.id.ListVArticle);
         String [] item = {};
         arrayList = new ArrayList<>(Arrays.asList(item));
         adapter = new ArrayAdapter<String>(this,R.layout.list_motcle,R.id.txtitem,arrayList);
-        listView.setAdapter(adapter);
+        listViewMotCle.setAdapter(adapter);
         txtinput= findViewById(R.id.txtinput);
         Button btadd = findViewById(R.id.btadd);
         btadd.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +67,32 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        String [] itemArticle = {};
+        final ArrayList<String> arrayListArticle = new ArrayList<>(Arrays.asList(itemArticle));
+        final ArrayAdapter<String> adapterArticle = new ArrayAdapter<String>(this, R.layout.list_motcle, R.id.txtitem, arrayListArticle);
+        listViewArticle.setAdapter(adapterArticle);
+        Button btaddArticle=findViewById(R.id.btaddArticle);
+
+        btaddArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(arrayList.isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(), "Entrer des mot clé d'abord", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                 String txt="Article"+ cpt+"";
+                    arrayListArticle.add(txt);
+                    adapterArticle.notifyDataSetChanged();
+                    cpt++;
+
+                    Article article=new Article(arrayList,txt);
+                   articleList.add(article);
+                   arrayList.clear();
+                }
+            }
+        });
         mEmail= findViewById(R.id.email);
         mPseudo= findViewById(R.id.pseudo);
         mMdp= findViewById(R.id.mdp);
@@ -125,13 +157,15 @@ public class SignupActivity extends AppCompatActivity {
                                             });
                                     User uti = new User();
                                     uti.addUser(user.getUid(), pseudo, email);
-                                    if(arrayList.isEmpty()==false) {
+                                    uti.addMotcle(articleList, user.getUid());
+                                    /*if(arrayList.isEmpty()==false) {
                                         final HashMap<String, Integer> map = new HashMap<>();
                                         for (int i = 0; i < arrayList.size(); i++) {
                                             map.put(arrayList.get(i),1);
                                         }
-                                        uti.addMotcle(map, user.getUid());
-                                    }
+
+                                        //uti.recommand(user.getUid());
+                                    }*/
 
 
                                 }

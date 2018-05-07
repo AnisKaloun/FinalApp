@@ -33,13 +33,15 @@
 
         <Button
             android:id="@+id/search_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="112dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/search_field"
             android:layout_marginEnd="60dp"
+            android:background="@drawable/button_red"
             android:text="Chercher"
-            />
+            android:textColor="#fff"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
@@ -49,12 +51,12 @@
     android:orientation="horizontal">
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@color/colorPrimary"
-        android:orientation="horizontal"
         android:checkedButton="@+id/radioButton_auteur"
-        android:id="@+id/radioGroup">
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radioButton_auteur"
@@ -81,8 +83,8 @@
         android:id="@+id/rechercheframe"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
         android:scrollbarSize="4dp"
         android:scrollbarThumbVertical="@drawable/scrollbar"
         android:scrollbars="vertical"

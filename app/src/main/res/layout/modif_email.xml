@@ -3,7 +3,6 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blanc"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -23,12 +22,12 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/ancienEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView2"
             android:layout_alignBottom="@+id/textView2"
             android:layout_alignParentEnd="true"
+            android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName"
             android:textSize="14sp" />
@@ -38,29 +37,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/textView2"
-            android:layout_below="@+id/editText"
+            android:layout_below="@+id/ancienEmail"
             android:layout_marginTop="70dp"
             android:text="@string/nouveauE"
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/newEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textView8"
             android:layout_alignParentEnd="true"
+            android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName"
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/button7"
-            android:layout_width="match_parent"
+            android:id="@+id/enregistrerEmail"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView8"
-            android:layout_below="@+id/textView8"
-            android:layout_marginTop="32dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="184dp"
+            android:background="@drawable/button_red"
             android:text="@string/enregistrer"
+            android:textColor="#fff"
             android:textSize="24sp" />
     </RelativeLayout>
 </LinearLayout>

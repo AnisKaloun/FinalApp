@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blanc"
     android:orientation="vertical"
     android:padding="10dp"
 
@@ -13,22 +12,22 @@
 
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="fill_parent"
         android:layout_height="416dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:id="@+id/relativeLayout">
+        android:layout_alignParentTop="true">
 
 
         <TextView
             android:id="@+id/txtPseudo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_alignBottom="@+id/textView5"
             android:layout_toEndOf="@+id/textView7"
             android:width="90dp"
             android:allowUndo="true"
+            android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName" />
 
@@ -40,6 +39,7 @@
             android:layout_marginTop="20dp"
             android:layout_toEndOf="@+id/textView5"
             android:width="200dp"
+            android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textEmailAddress" />
 
@@ -57,10 +57,11 @@
             android:id="@+id/txtMdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/modifEmail"
-            android:layout_marginTop="23dp"
-            android:layout_toEndOf="@+id/textView7"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/txtPseudo"
+            android:layout_marginTop="138dp"
             android:width="90dp"
+            android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPassword"
             android:text="@string/mdpEtoiles" />
@@ -115,7 +116,9 @@
             android:layout_alignParentEnd="true"
             android:width="20dp"
             android:height="20dp"
-            android:text="@string/modifier" />
+            android:background="@drawable/button_red"
+            android:text="@string/modifier"
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/modifEmail"
@@ -124,7 +127,9 @@
             android:layout_alignBaseline="@+id/txtEmail"
             android:layout_alignBottom="@+id/txtEmail"
             android:layout_alignParentEnd="true"
-            android:text="@string/modifier" />
+            android:background="@drawable/button_red"
+            android:text="@string/modifier"
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/modifMdp"
@@ -133,7 +138,9 @@
             android:layout_alignBaseline="@+id/txtMdp"
             android:layout_alignBottom="@+id/txtMdp"
             android:layout_alignParentEnd="true"
-            android:text="@string/modifier" />
+            android:background="@drawable/button_red"
+            android:text="@string/modifier"
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/MajListe"
@@ -143,7 +150,9 @@
             android:layout_alignBottom="@+id/textView7"
             android:layout_marginStart="26dp"
             android:layout_toEndOf="@+id/textView7"
+            android:background="@drawable/button_red"
             android:text="@string/maj_motcle"
+            android:textColor="#fff"
             tools:ignore="DuplicateIds" />
 
 
@@ -151,11 +160,14 @@
 
     <Button
         android:id="@+id/enregModif"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/button_red"
         android:text="@string/enregistrer"
+        android:textColor="#fff"
         android:textSize="30sp" />
 
 
