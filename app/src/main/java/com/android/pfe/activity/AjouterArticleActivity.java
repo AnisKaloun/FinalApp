@@ -15,13 +15,13 @@ import android.widget.TextView;
 
 import com.android.pfe.R;
 import com.android.pfe.other.Article;
-import com.android.pfe.other.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class AjouterArticleActivity extends AppCompatActivity {
@@ -92,18 +92,18 @@ public class AjouterArticleActivity extends AppCompatActivity {
                  String titrePDF = id_titre.getText().toString();
                String Userid=auth.getCurrentUser().getUid().toString();
                String author=auth.getCurrentUser().getDisplayName().toString();
-                /*final HashMap<String, Integer> map = new HashMap<>();
+                final HashMap<String, Integer> map = new HashMap<>();
                 if(arrayList.isEmpty()==false) {
 
                     for (int i = 0; i < arrayList.size(); i++) {
                         map.put(arrayList.get(i),1);
                     }
 
-                }*/
-                User uti=new User();
+                }
 
-               article.addArticle(Userid,author,titrePDF,arrayList);
-              //  uti.addMotcle(map,Userid);
+
+               article.addArticle(Userid,author,titrePDF,map);
+              // uti.addMotcle(map,Userid);
                 finish();
             }
         });

@@ -47,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
         final ArrayList<String> arrayList;
         final ArrayAdapter<String> adapter;
         final EditText txtinput ;
-        articleList=new ArrayList();
+        articleList=new ArrayList<Article>();
         setContentView(R.layout.activity_signup);
         ListView listViewMotCle = findViewById(R.id.ListVMotcle);
         ListView listViewArticle=findViewById(R.id.ListVArticle);
@@ -86,8 +86,15 @@ public class SignupActivity extends AppCompatActivity {
                     arrayListArticle.add(txt);
                     adapterArticle.notifyDataSetChanged();
                     cpt++;
+                    String mot="";
+                    if(arrayList.isEmpty()==false) {
 
-                    Article article=new Article(arrayList,txt);
+                        for (int i = 0; i < arrayList.size(); i++) {
+                            mot+=arrayList.get(i)+" ";
+                        }
+
+                    }
+                    Article article=new Article(mot,txt);
                    articleList.add(article);
                    arrayList.clear();
                 }

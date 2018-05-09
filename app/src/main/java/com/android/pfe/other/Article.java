@@ -4,25 +4,25 @@ import android.support.annotation.Keep;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lety2018 on 15/04/2018.
  */
+@IgnoreExtraProperties
 @Keep
 public class Article implements Serializable {
 
     private static final String TAG ="Article";
-    public String mMot_cle;
+    private String mot_cle;
     private String titre;
     private String auteur;
     private String articleId;
-    private float note ;
-    private String Userid;
-    private List motcle;
+   // private float note ;
+    private String Uid;
 
     public Article() {
 
@@ -30,28 +30,28 @@ public class Article implements Serializable {
 
     }
 
-    public Article(String user, String articleId, String titre, String auteur,String mot_cle) {
+    public Article(String user, String articleId, String titre, String auteur, String mot_cle) {
 
         this.auteur = auteur;
         this.titre = titre;
-        this.Userid=user;
+        this.Uid=user;
         this.articleId=articleId;
-        this.mMot_cle=mot_cle;
+        this.mot_cle=mot_cle;
+
+
     }
 
-    public Article(ArrayList<String> arrayList, String titre) {
-        this.motcle=new ArrayList(arrayList);
+    public Article(String map, String titre) {
+        //constructeur pour les article desireé
+        this.mot_cle=map;
         this.titre=titre;
     }
-    public Article(String user, String articleId, String titre, String auteur,String mot_cle,ArrayList<String> arrayList) {
 
+    public Article(String user, String articleId, String titre, String auteur) {
         this.auteur = auteur;
         this.titre = titre;
-        this.Userid=user;
+        this.Uid=user;
         this.articleId=articleId;
-        this.mMot_cle=mot_cle;
-        this.motcle=new ArrayList(arrayList);
-
     }
 
 
@@ -66,32 +66,33 @@ public class Article implements Serializable {
     public String getTitre() {
         return titre;
     }
-    public float getNote() {
+ /*   public float getNote() {
         return note;
-    }
+    }*/
 
-    public void addArticle(String user,String auteur, String titre,ArrayList motcle)
+    public void addArticle(String user,String auteur, String titre,Map motcle)
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         String id= database.child("Article").push().getKey();
+
         if(motcle.isEmpty()==false) {
 
             String mot="";
 
-            for (Object s:motcle) {
-                mot+=s+"";
+            for (Object s:motcle.keySet()) {
+                mot+=s+" ";
             }
 
 
-            Article dc = new Article(user,id,titre,auteur,mot,motcle);
+            Article dc = new Article(user,id,titre,auteur,mot);
             database.child("Article").child(id).setValue(dc);
-         //  database.child("Article").child(id).child("motcle").setValue(motcle);
+
         }
         else
                {
 
-                Article dc = new Article(user,id,titre,auteur,"");
+                Article dc = new Article(user,id,titre,auteur);
                 database.child("Article").child(id).setValue(dc);
 
                }
@@ -103,12 +104,14 @@ public class Article implements Serializable {
 
 
     public String getid() {
-        return Userid;
+        return Uid;
     }
 
     public String getMot_cle() {
-        return mMot_cle;
+        return mot_cle;
     }
+
+
 }
 
 

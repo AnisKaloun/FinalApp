@@ -1,6 +1,5 @@
 package com.android.pfe.other;
 
-import android.support.annotation.Keep;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -14,21 +13,20 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by SADA INFO on 13/04/2018.
  */
 @IgnoreExtraProperties
-@Keep
+
 public class User implements Serializable {
     private static final String TAG ="UserClass" ;
     public String username;
     public String email;
     public ArrayList<User> contact;
     public String Uid;
-    public ArrayList ArticleDesire;
+    public ArrayList<Article> ArticleDesire;
     public DatabaseReference mDatabase;
     public Notification mNotifications;
 
@@ -52,12 +50,12 @@ public class User implements Serializable {
 
 
     }
-    public User(String username, String email,String uid,List list) {
+    public User(String username, String email,String uid,ArrayList<Article> list) {
         this.username = username;
         this.email = email;
         this.contact= new ArrayList<>();
         this.Uid=uid;
-        this.ArticleDesire=new ArrayList(list);
+        this.ArticleDesire= new ArrayList<>(list);
     }
 
     public String getUsername() {
@@ -82,17 +80,18 @@ public class User implements Serializable {
             User user = new User(name, email,UserId);
             mDatabase.child(UserId).setValue(user);
     }
-    public void addMotcle(final ArrayList<String> motcle, String Userid)
+    public void addMotcle(final ArrayList<Article> motcle, String Userid)
     {
         mDatabase = FirebaseDatabase.getInstance().getReference("User");
         DatabaseReference user = mDatabase.child(Userid);
         final DatabaseReference keylist = user.child("ArticleDesire");
-        keylist.addListenerForSingleValueEvent(new ValueEventListener() {
+        keylist.setValue(motcle);
+       /*  keylist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                keylist.setValue(motcle);
-              /*  if(dataSnapshot.exists())
+
+               if(dataSnapshot.exists())
                 {
                     ArrayList list = (ArrayList) dataSnapshot.getValue();
                     Map<String,Long>Hmap= new HashMap<>();
@@ -118,14 +117,14 @@ public class User implements Serializable {
                 {
                  keylist.setValue(motcle);
 
-                }*/
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
 
 
@@ -283,22 +282,16 @@ public class User implements Serializable {
     {
         mDatabase = FirebaseDatabase.getInstance().getReference("User");
         DatabaseReference user = mDatabase.child(UserId);
-        final DatabaseReference keylist = user.child("motcle");
+        final DatabaseReference keylist = user.child("ArticleDesire");
         keylist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                {
-                    Map<String,Long> map = (Map) dataSnapshot.getValue();
-                    if(numberofitem(map)<10) {
-                        //on peut prendre les i premiers article par mot clé
+                if(dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Map<String, Long> map = (Map) snapshot.getValue();
 
-                        findArticleBySimilarity(map);
+                            findArticleBySimilarity(map);
                     }
-                    else{
-                        //calcule collaboratif en utilisant pearson
-                    }
-
                 }
             }
 

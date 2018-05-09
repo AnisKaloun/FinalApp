@@ -47,9 +47,10 @@ public class ArticleAdaptor extends ArrayAdapter<Article> {
 
         final String rec_titre = item.getTitre();
         final String rec_auteur = item.getAuteur();
+
         txt.setText(item.getTitre());
         txt2.setText(item.getAuteur());
-        txt3.setText(item.mMot_cle);
+        txt3.setText(item.getMot_cle());
         Log.w("mot clé recup",""+item.getMot_cle());
         lire.setOnClickListener(new View.OnClickListener() {
 
