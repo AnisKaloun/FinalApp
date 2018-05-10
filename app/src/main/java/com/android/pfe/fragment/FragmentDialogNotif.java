@@ -124,9 +124,5 @@ public class FragmentDialogNotif extends DialogFragment{
 
 
 
-   /* public interface SimpleCallback {
-        void callback(Object data);
-    }
-*/
 }
 

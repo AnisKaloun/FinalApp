@@ -7,7 +7,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Created by lety2018 on 15/04/2018.
@@ -22,7 +21,7 @@ public class Article implements Serializable {
     private String auteur;
     private String articleId;
    // private float note ;
-    private String Uid;
+    private String id;
 
     public Article() {
 
@@ -34,7 +33,7 @@ public class Article implements Serializable {
 
         this.auteur = auteur;
         this.titre = titre;
-        this.Uid=user;
+        this.id=user;
         this.articleId=articleId;
         this.mot_cle=mot_cle;
 
@@ -50,13 +49,21 @@ public class Article implements Serializable {
     public Article(String user, String articleId, String titre, String auteur) {
         this.auteur = auteur;
         this.titre = titre;
-        this.Uid=user;
+        this.id=user;
         this.articleId=articleId;
     }
 
+    public void setId(String id) {
+        this.id = id;
+
+    }
 
     public String getArticleId() {
         return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
     }
 
     public String getAuteur() {
@@ -70,22 +77,16 @@ public class Article implements Serializable {
         return note;
     }*/
 
-    public void addArticle(String user,String auteur, String titre,Map motcle)
+    public void addArticle(String user, String auteur, String titre, String motcle)
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         String id= database.child("Article").push().getKey();
 
-        if(motcle.isEmpty()==false) {
-
-            String mot="";
-
-            for (Object s:motcle.keySet()) {
-                mot+=s+" ";
-            }
+        if(motcle!=null) {
 
 
-            Article dc = new Article(user,id,titre,auteur,mot);
+            Article dc = new Article(user,id,titre,auteur,motcle);
             database.child("Article").child(id).setValue(dc);
 
         }
@@ -104,7 +105,7 @@ public class Article implements Serializable {
 
 
     public String getid() {
-        return Uid;
+        return id;
     }
 
     public String getMot_cle() {

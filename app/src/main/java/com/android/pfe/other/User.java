@@ -12,8 +12,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by SADA INFO on 13/04/2018.
@@ -29,6 +32,7 @@ public class User implements Serializable {
     public ArrayList<Article> ArticleDesire;
     public DatabaseReference mDatabase;
     public Notification mNotifications;
+    private DatabaseReference Database;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(com.android.pfe.other.User.class)
@@ -152,7 +156,7 @@ public class User implements Serializable {
 
 
                             }
-                            if(bool==false)
+                            if(!bool)
                             {
                                 HashMap<String, String> Hmap = new HashMap<>();
                                 Hmap.put("email", "" + email.toString().trim());
@@ -278,19 +282,22 @@ public class User implements Serializable {
 
     }
 
-    public void recommand(String UserId)
+    public void recommand(final String UserId)
     {
         mDatabase = FirebaseDatabase.getInstance().getReference("User");
-        DatabaseReference user = mDatabase.child(UserId);
+        final DatabaseReference user = mDatabase.child(UserId);
         final DatabaseReference keylist = user.child("ArticleDesire");
         keylist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Map<String, Long> map = (Map) snapshot.getValue();
+                         Article art = snapshot.getValue(Article.class);
+                         if(art.getMot_cle()!=null) {
+                             findArticleBySimilarity(art,UserId);
+                         }
 
-                            findArticleBySimilarity(map);
+
                     }
                 }
             }
@@ -313,13 +320,11 @@ public class User implements Serializable {
         return sum;
     }
 
-    private void findArticleBySimilarity(Map<String, Long> map) {
-
-
-
-        //on met une grande boucle ou en itere sur map
+    private void findArticleBySimilarity(final Article map, final String userId) {
 
             Query query = FirebaseDatabase.getInstance().getReference("Article");
+          mDatabase = FirebaseDatabase.getInstance().getReference("User").child(userId);
+        final DatabaseReference articleRec = mDatabase.child("ArticleRecommande");
 
             query.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -327,17 +332,27 @@ public class User implements Serializable {
                     if (dataSnapshot.exists())
                     {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Map<String, Object> arti = (Map) snapshot.getValue();
-                            if (arti.containsKey("motcle")) {
-                                Map<String, Long> motcle = (Map<String, Long>) arti.get("motcle");
-                              //  FastByIDMap<PreferenceArray> preferences=new FastByIDMap<PreferenceArray>;
-                                //içi on calcule la similarité avec pearson
-                                //aprés avoir calculer on regarde la note si elle est bonne on l'as met dans une liste
+                            Article arti = snapshot.getValue(Article.class);
+                            if (arti != null) {
+                               // Log.w("Article ","Article de user "+arti.getid());
+                                if (!arti.getid().equals(userId)) {
+                                    if (arti.getMot_cle() != null) {
+                                        Log.w("Article ","mot clé 1 "+arti.getMot_cle());
+                                        Log.w("Article ","mot clé 2 "+map.getMot_cle());
+                                        double sim = calculerSimi(map.getMot_cle(), arti.getMot_cle());
+                                        Log.w("Sim", " " + sim);
+                                        if (sim > 0.6) {
+                                            //içi on as trouvé que c similaire
+                                            Article docR=new Article();
+                                            docR.setArticleId(arti.getArticleId());
+                                            articleRec.push().setValue(docR);
 
+                                        }
 
+                                    }
+                                }
                             }
                         }
-
                     }
                 }
 
@@ -352,6 +367,27 @@ public class User implements Serializable {
 
     }
 
+    private double calculerSimi(String mot_cle, String mot_cle1) {
+        //içi on calcule avec jacard
+        String [] mot1 = mot_cle.split("\\s+");
+        String [] mot2 = mot_cle1.split("\\s+");
+
+
+        Set<String> tag1=new HashSet<>(Arrays.asList(mot1));
+        Set<String> tag2=new HashSet<>(Arrays.asList(mot2));
+        //union
+        Set<String> union = new HashSet<String>(tag1);
+        union.addAll(tag2);
+        Log.w("Union","taille est"+union.size());
+        Log.w("Union","les element sont"+union);
+        //intersection
+        Set<String> intersect=new HashSet<String>(tag1);
+        intersect.retainAll(tag2);
+        Log.w("intersect","taille est"+intersect.size());
+
+        return (Double.valueOf(intersect.size()) / Double.valueOf(union.size()));
+
+    }
 
 
 }

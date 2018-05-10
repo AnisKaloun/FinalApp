@@ -171,9 +171,9 @@ public class SignupActivity extends AppCompatActivity {
                                             map.put(arrayList.get(i),1);
                                         }
 
-                                        //uti.recommand(user.getUid());
-                                    }*/
 
+                                    }*/
+                                    uti.recommand(user.getUid());
 
                                 }
                            //*****************************************************

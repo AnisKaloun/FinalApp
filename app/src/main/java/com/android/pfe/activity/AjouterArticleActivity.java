@@ -21,7 +21,6 @@ import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class AjouterArticleActivity extends AppCompatActivity {
@@ -92,17 +91,17 @@ public class AjouterArticleActivity extends AppCompatActivity {
                  String titrePDF = id_titre.getText().toString();
                String Userid=auth.getCurrentUser().getUid().toString();
                String author=auth.getCurrentUser().getDisplayName().toString();
-                final HashMap<String, Integer> map = new HashMap<>();
+                String mot="";
                 if(arrayList.isEmpty()==false) {
 
                     for (int i = 0; i < arrayList.size(); i++) {
-                        map.put(arrayList.get(i),1);
+                        mot+=arrayList.get(i)+" ";
                     }
 
                 }
 
 
-               article.addArticle(Userid,author,titrePDF,map);
+               article.addArticle(Userid,author,titrePDF,mot);
               // uti.addMotcle(map,Userid);
                 finish();
             }
