@@ -56,7 +56,7 @@ public class SignupActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this,R.layout.list_motcle,R.id.txtitem,arrayList);
         listViewMotCle.setAdapter(adapter);
         txtinput= findViewById(R.id.txtinput);
-        Button btadd = findViewById(R.id.btadd);
+        Button btadd = findViewById(R.id.ajouterMcl);
         btadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

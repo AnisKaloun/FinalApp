@@ -5,20 +5,27 @@ import java.io.Serializable;
 public class Message implements Serializable{
     private String mArticleTitle;
     private String mUserUsername;
-public Message(){
+    private String mArticleId;
 
-}
-   public Message(String anticlerical,String userId)
+
+    public Message(){
+
+
+    }
+
+
+   public Message(String Articletitle, String Articleid, String userId)
    {
-       this.mArticleTitle=anticlerical;
+       this.mArticleId=Articleid;
+       this.mArticleTitle=Articletitle;
        this. mUserUsername=userId;
    }
 
-    public String getArticleId() {
+    public String getArticleTitle() {
         return mArticleTitle;
     }
 
-    public void setArticleId(String articleId) {
+    public void setArticleTitle(String articleId) {
         mArticleTitle = articleId;
     }
 
@@ -28,5 +35,12 @@ public Message(){
 
     public void setUserUsername(String userId) {
         mUserUsername = userId;
+    }
+    public String getArticleId() {
+        return mArticleId;
+    }
+
+    public void setArticleId(String articleId) {
+        mArticleId = articleId;
     }
 }

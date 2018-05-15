@@ -14,7 +14,7 @@
 
         <EditText
             android:id="@+id/id_titre"
-            android:layout_width="129dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/id_motcle"
@@ -37,7 +37,7 @@
 
         <EditText
             android:id="@+id/id_motcle"
-            android:layout_width="129dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
 
             android:layout_alignParentTop="true"
@@ -86,12 +86,12 @@
 
         <TextView
             android:id="@+id/lien"
-            android:layout_width="129dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="98dp"
-            android:layout_marginTop="79dp"
+            android:layout_above="@+id/ajouter"
+            android:layout_marginBottom="43dp"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/str_url"
             android:background="@drawable/search_layout"
             android:textSize="14sp" />
 
@@ -116,12 +116,12 @@
 
         <Button
             android:id="@+id/id_enregistrer"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-
+            android:layout_marginTop="23dp"
             android:background="@drawable/button_red"
             android:text="@string/enregistrer"
             android:textColor="#fff"

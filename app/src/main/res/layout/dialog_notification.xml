@@ -70,8 +70,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:text="@string/lire"
             android:textColor="#fff"
+            android:text="@string/lire"
             android:textSize="7sp" />
 
 
@@ -81,8 +81,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:text="@string/telecharger"
             android:textColor="#fff"
+            android:text="@string/telecharger"
             android:textSize="7sp" />
 
         <Button
@@ -91,8 +91,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:text="@string/partager"
             android:textColor="#fff"
+            android:text="@string/partager"
             android:textSize="7sp" />
 
         <TextView

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -14,8 +16,8 @@
             android:layout_width="74dp"
             android:layout_height="73dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/pdf"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:background="@drawable/pdf"/>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -57,8 +59,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:text="@string/lire"
             android:textColor="#fff"
+            android:text="@string/lire"
             android:textSize="7sp" />
 
 
@@ -68,8 +70,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:text="@string/telecharger"
             android:textColor="#fff"
+            android:text="@string/telecharger"
             android:textSize="7sp" />
 
         <Button
@@ -78,8 +80,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:text="@string/partager"
             android:textColor="#fff"
+            android:text="@string/partager"
             android:textSize="7sp" />
 
         <Button
@@ -88,8 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:text="@string/supprimer"
             android:textColor="#fff"
+            android:text="@string/supprimer"
             android:textSize="7sp"/>
 
     </LinearLayout>

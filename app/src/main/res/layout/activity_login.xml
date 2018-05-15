@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
+    android:background="@drawable/blanc"
     tools:context="com.android.pfe.activity.LoginActivity">
     <EditText
         android:id="@+id/MailAdress"
@@ -30,10 +30,11 @@
         android:layout_below="@+id/MailAdress"
         android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_password"
         android:ems="10"
+        android:drawableLeft="@drawable/ic_password"
         android:hint="Mot de passe"
         android:inputType="textPassword" />
+
     <Button
         android:id="@+id/LogButton"
         android:layout_width="300dp"
@@ -44,7 +45,7 @@
         android:layout_marginTop="31dp"
         android:background="@drawable/button_red"
         android:text="@string/Login"
-        android:textColor="#fff"/>
+        android:textColor="#fff" />
     <TextView
         android:id="@+id/Register"
         android:layout_width="wrap_content"
@@ -59,11 +60,34 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="179dp"
-        android:layout_alignParentStart="true"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/leti" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/image_de_fond" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/aguafina_script"
+        android:text="P R"
+        android:textSize="18dp"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/MailAdress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:text="Publication Recommander"
+        android:textAllCaps="true" />
 
 </RelativeLayout>
 

@@ -12,20 +12,20 @@
 
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
         android:layout_width="fill_parent"
         android:layout_height="416dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:id="@+id/relativeLayout">
 
 
         <TextView
             android:id="@+id/txtPseudo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView5"
             android:layout_alignBottom="@+id/textView5"
-            android:layout_toEndOf="@+id/textView7"
-            android:width="90dp"
+            android:layout_centerHorizontal="true"
             android:allowUndo="true"
             android:background="@drawable/txt_gray"
             android:ems="10"
@@ -35,10 +35,9 @@
             android:id="@+id/txtEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/txtMdp"
             android:layout_below="@+id/modifPseudo"
-            android:layout_marginTop="20dp"
-            android:layout_toEndOf="@+id/textView5"
-            android:width="200dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textEmailAddress" />
@@ -57,10 +56,9 @@
             android:id="@+id/txtMdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/txtPseudo"
-            android:layout_marginTop="138dp"
-            android:width="90dp"
+            android:layout_below="@+id/modifEmail"
+            android:layout_marginTop="32dp"
             android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPassword"
@@ -70,9 +68,9 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/txtMdp"
-            android:layout_alignBottom="@+id/txtMdp"
-            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/modifMdp"
+            android:layout_marginEnd="18dp"
+            android:layout_toStartOf="@+id/txtMdp"
             android:text="@string/mdp"
             android:textSize="18sp" />
 
@@ -111,14 +109,14 @@
             android:id="@+id/modifPseudo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_red"
+            android:textColor="#fff"
             android:layout_alignBaseline="@+id/txtPseudo"
             android:layout_alignBottom="@+id/txtPseudo"
             android:layout_alignParentEnd="true"
             android:width="20dp"
             android:height="20dp"
-            android:background="@drawable/button_red"
-            android:text="@string/modifier"
-            android:textColor="#fff" />
+            android:text="@string/modifier" />
 
         <Button
             android:id="@+id/modifEmail"
@@ -146,29 +144,27 @@
             android:id="@+id/MajListe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView7"
-            android:layout_alignBottom="@+id/textView7"
-            android:layout_marginStart="26dp"
-            android:layout_toEndOf="@+id/textView7"
+            android:layout_alignStart="@+id/modifMdp"
+            android:layout_below="@+id/modifMdp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/button_red"
             android:text="@string/maj_motcle"
-            android:textColor="#fff"
-            tools:ignore="DuplicateIds" />
+            android:textColor="#fff" />
 
 
     </RelativeLayout>
 
     <Button
         android:id="@+id/enregModif"
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="13dp"
+        android:layout_marginTop="13dp"
         android:background="@drawable/button_red"
         android:text="@string/enregistrer"
         android:textColor="#fff"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
 
 
 </RelativeLayout>

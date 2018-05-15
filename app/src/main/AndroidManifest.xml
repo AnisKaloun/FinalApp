@@ -35,6 +35,9 @@
         <activity android:name=".other.Modif_mot_de_passe"/>
         <activity android:name=".activity.AjouterArticleActivity"/>
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
 
     </application>

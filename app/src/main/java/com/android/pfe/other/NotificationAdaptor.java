@@ -29,7 +29,7 @@ public class NotificationAdaptor extends ArrayAdapter<Message> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_notification, parent, false);
         }
         TextView message = convertView.findViewById(R.id.ListMessage);
-        message.setText(""+item.getUserUsername()+" vous a recommandé "+item.getArticleId());
+        message.setText(""+item.getUserUsername()+" vous a recommandé l'Article :"+item.getArticleTitle());
         return convertView;
     }
 }

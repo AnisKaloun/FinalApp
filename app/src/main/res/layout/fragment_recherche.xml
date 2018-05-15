@@ -8,8 +8,8 @@
     <!-- Editext for Search -->
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="99dp"
         android:orientation="horizontal">
 
         <EditText
@@ -35,9 +35,9 @@
             android:id="@+id/search_btn"
             android:layout_width="112dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/search_field"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/search_field"
-            android:layout_marginEnd="60dp"
+            android:layout_marginEnd="18dp"
             android:background="@drawable/button_red"
             android:text="Chercher"
             android:textColor="#fff"
@@ -45,39 +45,39 @@
 
     </RelativeLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="@color/colorPrimary"
-        android:checkedButton="@+id/radioButton_auteur"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/radioButton_auteur"
-            android:layout_width="42dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_weight="1"
-            android:text="Auteur" />
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/colorPrimary"
+            android:checkedButton="@+id/radioButton_auteur"
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/radioButton_titre"
-            android:layout_width="97dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_weight="1"
-            android:text="Titre" />
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/radioButton_auteur"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:text="Auteur" />
 
-</LinearLayout>
+            <RadioButton
+                android:id="@+id/radioButton_titre"
+                android:layout_width="97dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_weight="1"
+                android:text="Titre" />
+        </RadioGroup>
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/rechercheframe"
@@ -88,8 +88,7 @@
         android:scrollbarSize="4dp"
         android:scrollbarThumbVertical="@drawable/scrollbar"
         android:scrollbars="vertical"
-        tools:context="com.android.pfe.fragment.ContactFragment">
-    </ListView>
+        tools:context="com.android.pfe.fragment.ContactFragment"></ListView>
 
 
 </LinearLayout>

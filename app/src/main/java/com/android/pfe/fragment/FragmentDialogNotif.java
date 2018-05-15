@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,38 +71,47 @@ public class FragmentDialogNotif extends DialogFragment{
         mLire = getView().findViewById(R.id.lirePDF);
         mPartager= getView().findViewById(R.id.partagerPDF);
         query= FirebaseDatabase.getInstance().getReference("Article")
-                .orderByChild("Uid")
+                .orderByChild("articleId")
                 .equalTo(articleId);
+        Log.w("FoundArticle","l'id de l'article a trouvé"+articleId);
         mTitre = getView().findViewById(R.id.titre);
         mAuteur = getView().findViewById(R.id.auteur);
         mMotcle = getView().findViewById(R.id.motcle);
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        Log.w("notification","je suis dans le Dialog frag");
+        ValueEventListener mListener = new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
+                    Log.w("Notification","Article Trouvé");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
                         final Article article = snapshot.getValue(Article.class);
-                        if(article.getArticleId().equals(articleId))
-                        {
 
-                            mTitre.setText(article.getTitre());
-                            mAuteur.setText(article.getAuteur());
-                            mMotcle.setText(article.getMot_cle());
-                            mLire.setOnClickListener(new View.OnClickListener() {
+                        Log.w("FoundArticle", "le titre est" + article.getTitre());
+                        Log.w("FoundArticle", "l'auteur est" + article.getAuteur());
 
-                                @Override
-                                public void onClick(View v) {
-                                    Intent myIntent = new Intent(v.getContext(), LecturePDF.class);
-                                    myIntent.putExtra("titre",article.getTitre()+".pdf");
-                                    myIntent.putExtra("auteur",article.getAuteur());
+                        mTitre.setText(article.getTitre());
+                        mAuteur.setText(article.getAuteur());
+                        mMotcle.setText(article.getMot_cle());
 
-                                    v.getContext().startActivity(myIntent);
+                        mLire.setOnClickListener(new View.OnClickListener() {
 
-                                }
-                            });
+                            @Override
+                            public void onClick(View v) {
+                                Intent myIntent = new Intent(v.getContext(), LecturePDF.class);
+                                myIntent.putExtra("titre", article.getTitre() + ".pdf");
+                                myIntent.putExtra("auteur", article.getAuteur());
 
-                        }
+                                v.getContext().startActivity(myIntent);
+
+                            }
+                        });
+
+
                     }
+
                 }
             }
 
@@ -111,14 +121,8 @@ public class FragmentDialogNotif extends DialogFragment{
             }
         };
 
-        query.addValueEventListener(valueEventListener);
 
-
-
-
-
-
-
+query.addValueEventListener(mListener);
 
     }
 

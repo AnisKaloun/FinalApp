@@ -37,7 +37,8 @@
         <string name="motcléPDF">Motclé: </string>
         <string name="mdpEtoiles">******** </string>
         <string name="supprimer">Supprimer</string>
-    <string name="choisirPDF">Ajouter un pdf</string>
+        <string name="choisirPDF">Ajouter un pdf</string>
+        <string name="photo">Photos</string>
 
 
     <!--signup page-->

@@ -274,7 +274,7 @@ public class User implements Serializable {
         mNotifications=new Notification();
         mNotifications.setState(true);
         notif.setValue(mNotifications);
-        Message mp=new Message(article.getTitre(),user.getUsername());
+        Message mp=new Message(article.getTitre(),article.getArticleId(),user.getUsername());
         message.push().setValue(mp);
         Log.w("User","notification state"+mNotifications.isState()+"message :");
 

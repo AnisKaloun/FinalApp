@@ -23,10 +23,10 @@
 
         <EditText
             android:id="@+id/editText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/editText2"
             android:layout_marginTop="49dp"
             android:background="@drawable/txt_gray"
             android:ems="10"
@@ -45,11 +45,11 @@
 
         <EditText
             android:id="@+id/editText2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/button7"
             android:layout_below="@+id/editText"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="46dp"
             android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName"
@@ -57,9 +57,10 @@
 
         <Button
             android:id="@+id/button7"
-            android:layout_width="300dp"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/button_red"
             android:text="@string/enregistrer"
             android:textColor="#fff"
