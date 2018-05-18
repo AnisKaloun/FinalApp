@@ -1,6 +1,5 @@
 package com.android.pfe.other;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -9,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.pfe.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -24,6 +27,8 @@ import java.util.List;
 public class ArticleAdaptor extends ArrayAdapter<Article> {
     List<Article> myList;
     private LayoutInflater mInflater;
+    private Query mDatabase;
+    private onChecked listener;
 
 
     public ArticleAdaptor(FragmentActivity activity, List<Article> myList) {
@@ -36,7 +41,7 @@ public class ArticleAdaptor extends ArrayAdapter<Article> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-        Article item = getItem(position);
+        final Article item = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_article, parent, false);
         }
@@ -65,16 +70,40 @@ public class ArticleAdaptor extends ArrayAdapter<Article> {
             }
         });
 
+        Button partage=convertView.findViewById(R.id.partagerPDF);
+        partage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) //call interface
+                    listener.checkedListener(item);
+            }
+        });
+
+
         Button Supp= convertView.findViewById(R.id.SupprimerPDF);
         Supp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(v.getContext());
-                dialog.setContentView(R.layout.dialog_share);
-                ListView lv = dialog.findViewById(R.id.Shareframe);
-                dialog.setCancelable(true);
-                dialog.setTitle("Ami");
-                dialog.show();
+                mDatabase= FirebaseDatabase.getInstance().getReference("Article").orderByChild("articleId")
+                        .equalTo(item.getArticleId());
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists())
+                        {
+                            for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                snapshot.getRef().removeValue();
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
 
@@ -84,5 +113,10 @@ public class ArticleAdaptor extends ArrayAdapter<Article> {
         return convertView;
     }
 
-
+    public void setListener(onChecked listener) {
+        this.listener = listener;
+    }
+    public interface onChecked {
+        void checkedListener(Article article);
+    }
 }

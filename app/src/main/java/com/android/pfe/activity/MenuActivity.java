@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.android.pfe.fragment.HomeFragment;
 import com.android.pfe.fragment.NotificationsFragment;
 import com.android.pfe.fragment.RechercheFragment;
 import com.android.pfe.other.Notification;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +49,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final String TAG_MOVIES = "movies";
     private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
+  
         // index to identify current nav menu item
     public static int navItemIndex = 0;
     public static String CURRENT_TAG = TAG_HOME;
@@ -69,6 +72,7 @@ public class MenuActivity extends AppCompatActivity {
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
     private FirebaseAuth auth;
+    private DatabaseReference Database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +94,7 @@ public class MenuActivity extends AppCompatActivity {
         txtWebsite = navHeader.findViewById(R.id.job);
      //   imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgProfile = navHeader.findViewById(R.id.img_profile);
-
+        
         if(auth.getCurrentUser()!=null) {
             if(auth.getCurrentUser().getDisplayName()!=null) {
                 txtName.setText(auth.getCurrentUser().getDisplayName().toString().trim());
@@ -98,6 +102,36 @@ public class MenuActivity extends AppCompatActivity {
             txtWebsite.setText(auth.getCurrentUser().getEmail().toString().trim());
 
         }
+        Database=FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid()).child("picUrl");
+
+        Database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+             if (dataSnapshot.exists())
+             {
+                     String URL= (String) dataSnapshot.getValue();
+                     if(URL!=null) {
+                         Log.w("URLPIC", ""+URL);
+
+                         Glide.with(MenuActivity.this).load(URL)
+                                 .into(imgProfile);
+
+                     }
+
+             }
+             else
+             {
+                 Log.w("URLPIC", "doesn't exists");
+             }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+             
+        //je peut mettre la photos içi
         profil= navHeader.findViewById(R.id.Profil);
         profil.setOnClickListener(new View.OnClickListener() {
             @Override

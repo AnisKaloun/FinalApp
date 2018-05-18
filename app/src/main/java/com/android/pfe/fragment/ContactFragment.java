@@ -97,7 +97,7 @@ public class ContactFragment extends Fragment  {
 
         mDatabase.addValueEventListener(valueEventListener);
 
-        adaptor = new ContactAdaptor(getActivity(),contactList);
+        adaptor = new ContactAdaptor(getActivity(),contactList,auth.getCurrentUser().getUid().toString());
 
         list.setAdapter(adaptor);
 

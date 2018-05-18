@@ -17,6 +17,7 @@
         android:layout_marginStart="39dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_mail"
+
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -30,8 +31,9 @@
         android:layout_below="@+id/MailAdress"
         android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
-        android:ems="10"
         android:drawableLeft="@drawable/ic_password"
+        android:ems="10"
+
         android:hint="Mot de passe"
         android:inputType="textPassword" />
 
@@ -76,8 +78,8 @@
         android:layout_marginTop="18dp"
         android:fontFamily="@font/aguafina_script"
         android:text="P R"
-        android:textSize="18dp"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/textView2"

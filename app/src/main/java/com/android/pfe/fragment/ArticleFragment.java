@@ -54,6 +54,7 @@ public class ArticleFragment extends Fragment {
     };
     private Button button;
 
+
     public ArticleFragment() {
         // Required empty public constructor
     }
@@ -78,8 +79,16 @@ public class ArticleFragment extends Fragment {
                 .orderByChild("id")
                 .equalTo(auth.getCurrentUser().getUid().toString());
         mDatabase.addValueEventListener(valueEventListener);
-         adaptor = new ArticleAdaptor(getActivity(),mydata);
 
+         adaptor = new ArticleAdaptor(getActivity(),mydata);
+        adaptor.setListener(new ArticleAdaptor.onChecked() {
+            @Override
+            public void checkedListener(Article article) {
+                FragmentDialogShare fd=new FragmentDialogShare(article);
+                fd.setTargetFragment(ArticleFragment.this,1);
+                fd.show(getFragmentManager(),"MyDialog");
+            }
+        });
         list.setAdapter(adaptor);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

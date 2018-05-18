@@ -33,6 +33,10 @@ public class User implements Serializable {
     public DatabaseReference mDatabase;
     public Notification mNotifications;
     private DatabaseReference Database;
+    private String PicUrl;
+
+
+
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(com.android.pfe.other.User.class)
@@ -46,11 +50,12 @@ public class User implements Serializable {
 
     }
 
-    public User(String username, String email,String uid) {
+    public User(String username, String email,String uid,String path) {
         this.username = username;
         this.email = email;
         this.contact= new ArrayList<>();
         this.Uid=uid;
+        this.PicUrl=path;
 
 
     }
@@ -78,10 +83,10 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public void addUser(String UserId, String name, String email) {
+    public void addUser(String UserId, String name, String email, String finalPath) {
         mDatabase = FirebaseDatabase.getInstance().getReference("User");
 
-            User user = new User(name, email,UserId);
+            User user = new User(name, email,UserId,finalPath);
             mDatabase.child(UserId).setValue(user);
     }
     public void addMotcle(final ArrayList<Article> motcle, String Userid)
@@ -267,16 +272,15 @@ public class User implements Serializable {
 
     public void addNotification (final Article article, final User user){
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("User");
-        DatabaseReference uti = mDatabase.child(user.Uid);
-        final DatabaseReference notif=uti.child("Notification");
-        final DatabaseReference message=notif.child("Message");
-        mNotifications=new Notification();
-        mNotifications.setState(true);
-        notif.setValue(mNotifications);
+        mDatabase=FirebaseDatabase.getInstance().getReference("User").child(user.Uid).child("Notification");
+        Notification notification=new Notification();
+        notification.setState(true);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("state",true);
+        mDatabase.updateChildren(childUpdates);
         Message mp=new Message(article.getTitre(),article.getArticleId(),user.getUsername());
-        message.push().setValue(mp);
-        Log.w("User","notification state"+mNotifications.isState()+"message :");
+        mDatabase.child("Message").push().setValue(mp);
+      //  Log.w("User","notification state"+mNotifications.isState()+"message :");
 
 
 
@@ -389,6 +393,12 @@ public class User implements Serializable {
 
     }
 
+    public String getPicUrl() {
+        return PicUrl;
+    }
 
+    public void setPicUrl(String picUrl) {
+        PicUrl = picUrl;
+    }
 }
 

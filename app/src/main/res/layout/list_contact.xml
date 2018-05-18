@@ -52,7 +52,7 @@
             android:layout_height="fill_parent">
 
             <Button
-                android:id="@+id/button7"
+                android:id="@+id/delete_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

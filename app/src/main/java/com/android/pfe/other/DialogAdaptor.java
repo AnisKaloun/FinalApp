@@ -6,14 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.pfe.R;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -23,11 +26,12 @@ import java.util.List;
  */
 
 public class DialogAdaptor extends ArrayAdapter<User> {
-    private LayoutInflater mInflater;
     List<User> myList;
+    private LayoutInflater mInflater;
     private FirebaseAuth auth,admin;
     private DatabaseReference mDatabase;
-  //  private onClicked listener;
+    private DatabaseReference Database;
+    //  private onClicked listener;
 
     public DialogAdaptor(FragmentActivity activity, List<User> myList) {
         super(activity,0,myList);
@@ -39,15 +43,15 @@ public class DialogAdaptor extends ArrayAdapter<User> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-        final User item = (User) getItem(position);
+        final User item = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_partage, parent, false);
         }
        auth=FirebaseAuth.getInstance();
 
 
-        TextView username = (TextView)convertView.findViewById(R.id.text_view_contact_username);
-        TextView email=(TextView) convertView.findViewById(R.id.contact_email);
+        TextView username = convertView.findViewById(R.id.text_view_contact_username);
+        TextView email= convertView.findViewById(R.id.contact_email);
         username.setText(item.username);
         email.setText(item.email);
        /*convertView.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +66,37 @@ public class DialogAdaptor extends ArrayAdapter<User> {
 
            }
        });*/
+
+        final ImageView imgProfile= convertView.findViewById(R.id.image_view_contact_display);
+
+        Database= FirebaseDatabase.getInstance().getReference("User").child(item.Uid).child("picUrl");
+
+        Database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
+                {
+                    String URL= (String) dataSnapshot.getValue();
+                    if(URL!=null) {
+                        Log.w("URLPIC", ""+URL);
+
+                        Glide.with(getContext()).load(URL)
+                                .into(imgProfile);
+
+                    }
+
+                }
+                else
+                {
+                    Log.w("URLPIC", "doesn't exists");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         return convertView;
     }

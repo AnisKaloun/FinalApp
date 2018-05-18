@@ -22,6 +22,7 @@ public class Article implements Serializable {
     private String articleId;
    // private float note ;
     private String id;
+    private String PdfUrl;
 
     public Article() {
 
@@ -29,13 +30,14 @@ public class Article implements Serializable {
 
     }
 
-    public Article(String user, String articleId, String titre, String auteur, String mot_cle) {
+    public Article(String user, String articleId, String titre, String auteur, String mot_cle, String s) {
 
         this.auteur = auteur;
         this.titre = titre;
         this.id=user;
         this.articleId=articleId;
         this.mot_cle=mot_cle;
+        this.PdfUrl=s;
 
 
     }
@@ -77,7 +79,7 @@ public class Article implements Serializable {
         return note;
     }*/
 
-    public void addArticle(String user, String auteur, String titre, String motcle)
+    public void addArticle(String user, String auteur, String titre, String motcle, String s)
     {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
@@ -86,14 +88,14 @@ public class Article implements Serializable {
         if(motcle!=null) {
 
 
-            Article dc = new Article(user,id,titre,auteur,motcle);
+            Article dc = new Article(user,id,titre,auteur,motcle,s);
             database.child("Article").child(id).setValue(dc);
 
         }
         else
                {
 
-                Article dc = new Article(user,id,titre,auteur);
+                Article dc = new Article(user,id,titre,auteur,"",s);
                 database.child("Article").child(id).setValue(dc);
 
                }
@@ -113,6 +115,13 @@ public class Article implements Serializable {
     }
 
 
+    public String getPdfUrl() {
+        return PdfUrl;
+    }
+
+    public void setPdfUrl(String pdfUrl) {
+        PdfUrl = pdfUrl;
+    }
 }
 
 

@@ -1,40 +1,54 @@
 package com.android.pfe.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.pfe.R;
 import com.android.pfe.other.Article;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.nbsp.materialfilepicker.MaterialFilePicker;
-import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Pattern;
+import java.util.UUID;
 
 public class AjouterArticleActivity extends AppCompatActivity {
 
 
+    private static final int PICK_PDF_REQUEST =70 ;
     Button addPDF ;
     TextView lien ;
     private FirebaseAuth auth;
+    private Uri filePath;
+    private TextView path;
+    private StorageReference storageReference;
+    private FirebaseStorage storage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajouter_article);
          setTitle("Ajouter Article");
         auth=FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         final ArrayList<String> arrayList;
         final ArrayAdapter<String> adapter;
         final EditText id_motcle ;
@@ -44,6 +58,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
         id_motcle = findViewById(R.id.id_motcle);
         Button ajouter = findViewById(R.id.ajouter);
         ListView listView = findViewById(R.id.ListV);
+                      path=findViewById(R.id.lien);
 
         //********************* ici le nom de l'auteur *************
         String [] item = {};
@@ -62,23 +77,19 @@ public class AjouterArticleActivity extends AppCompatActivity {
         });
 
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1001);
-        }
-
-
         addPDF= findViewById(R.id.addPDF);
         lien= findViewById(R.id.lien);
 
         addPDF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MaterialFilePicker()
-                        .withActivity(AjouterArticleActivity.this)
-                        .withRequestCode(1000)
-                        .withFilter(Pattern.compile(".*\\.pdf$")) // Filtering files and directories by file name using regexp
-                        .withHiddenFiles(true) // Show hidden files and folders
-                        .start();
+
+
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("application/pdf");
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
             }
         });
 
@@ -87,35 +98,83 @@ public class AjouterArticleActivity extends AppCompatActivity {
         enregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  Article article = new Article();
-                 String titrePDF = id_titre.getText().toString();
-               String Userid=auth.getCurrentUser().getUid().toString();
-               String author=auth.getCurrentUser().getDisplayName().toString();
-                String mot="";
-                if(arrayList.isEmpty()==false) {
+                String path ="Documents/";
+                if(filePath!=null) {
+                    path += UUID.randomUUID().toString();
+                    StorageReference ref = storageReference.child(path);
+                    ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        mot+=arrayList.get(i)+" ";
-                    }
 
+                            Log.w("filepath",""+downloadUrl.toString());
+                            Article article = new Article();
+                            String titrePDF = id_titre.getText().toString();
+                            String Userid = auth.getCurrentUser().getUid().toString();
+                            String author = auth.getCurrentUser().getDisplayName().toString();
+                            String mot = "";
+                            if (arrayList.isEmpty() == false) {
+
+                                for (int i = 0; i < arrayList.size(); i++) {
+                                    mot += arrayList.get(i) + " ";
+                                }
+
+                            }
+
+
+                            article.addArticle(Userid, author, titrePDF, mot,downloadUrl.toString());
+
+                        }
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    Toast.makeText(AjouterArticleActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                    finish();
                 }
 
-
-               article.addArticle(Userid,author,titrePDF,mot);
-              // uti.addMotcle(map,Userid);
-                finish();
             }
         });
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
+            filePath = data.getData();
+            String mpath = filePath.getPath().toString();
+            path.setText(mpath);
+            // "file:///mnt/sdcard/FileName.mp3"
 
-        if (requestCode == 1000 && resultCode == RESULT_OK) {
-            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            // Do anything with file
-            lien.setText(filePath);
+
         }
+    }
+
+    public String getPDFPath(Uri uri) {
+        String[] largeFileProjection = { MediaStore.Images.ImageColumns._ID,
+                MediaStore.Images.ImageColumns.DATA };
+        String largeFileSort = MediaStore.Images.ImageColumns._ID + " DESC";
+        Cursor myCursor = this.managedQuery(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                largeFileProjection, null, null, largeFileSort);
+        String largeImagePath = "";
+        try {
+            myCursor.moveToFirst();
+            largeImagePath = myCursor
+                    .getString(myCursor
+                            .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
+        } finally {
+            myCursor.close();
+        }
+        return largeImagePath;
     }
 }
