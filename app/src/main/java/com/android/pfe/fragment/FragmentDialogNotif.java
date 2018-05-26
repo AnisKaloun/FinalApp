@@ -3,6 +3,8 @@ package com.android.pfe.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.pfe.R;
 import com.android.pfe.other.Article;
 import com.android.pfe.other.LecturePDF;
 import com.android.pfe.other.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -43,6 +52,7 @@ public class FragmentDialogNotif extends DialogFragment{
     private TextView mTitre;
     private TextView mMotcle;
     private TextView mAuteur;
+    private Button mTelecharger;
 
     public FragmentDialogNotif(){
 
@@ -70,6 +80,7 @@ public class FragmentDialogNotif extends DialogFragment{
 
         mLire = getView().findViewById(R.id.lirePDF);
         mPartager= getView().findViewById(R.id.partagerPDF);
+        mTelecharger=getView().findViewById(R.id.telechargerPDF);
         query= FirebaseDatabase.getInstance().getReference("Article")
                 .orderByChild("articleId")
                 .equalTo(articleId);
@@ -77,6 +88,7 @@ public class FragmentDialogNotif extends DialogFragment{
         mTitre = getView().findViewById(R.id.titre);
         mAuteur = getView().findViewById(R.id.auteur);
         mMotcle = getView().findViewById(R.id.motcle);
+
         Log.w("notification","je suis dans le Dialog frag");
         ValueEventListener mListener = new ValueEventListener() {
 
@@ -103,11 +115,19 @@ public class FragmentDialogNotif extends DialogFragment{
                                 Intent myIntent = new Intent(v.getContext(), LecturePDF.class);
                                 myIntent.putExtra("titre", article.getTitre() + ".pdf");
                                 myIntent.putExtra("auteur", article.getAuteur());
-
+                                myIntent.putExtra("link",article.getPdfUrl());
                                 v.getContext().startActivity(myIntent);
 
                             }
                         });
+                        mTelecharger.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                downloadFile(article);
+                            }
+                        });
+
+
 
 
                     }
@@ -126,7 +146,33 @@ query.addValueEventListener(mListener);
 
     }
 
+    private void downloadFile(Article item) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        Log.w("HomeAdaptor","le lien est"+item.getPdfUrl());
+        StorageReference storageRef = storage.getReferenceFromUrl(item.getPdfUrl());
 
+
+        File rootPath = new File(Environment.getExternalStorageDirectory(),"Article");
+        if(!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
+
+        final File localFile = new File(rootPath,item.getTitre()+".pdf");
+
+        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(getContext(),"Fichier téléchargé", Toast.LENGTH_LONG).show();
+                Log.e("firebase ","local file created" +localFile.toString());
+                //  updateDb(timestamp,localFile.toString(),position);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("firebase ","local file not created" +exception.toString());
+            }
+        });
+    }
 
 }
 

@@ -9,27 +9,40 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="353dp">
+        android:layout_height="353dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
 
 
         <EditText
             android:id="@+id/id_titre"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/id_motcle"
+
+            android:layout_alignBaseline="@+id/str_titre"
+            android:layout_alignBottom="@+id/str_titre"
+            android:layout_alignStart="@+id/lien"
             android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/str_titre"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="27dp"
+            android:text="@string/titrePDF"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/ajouter"
             android:layout_width="112dp"
             android:layout_height="wrap_content"
-
-
-            android:layout_alignBaseline="@+id/id_motcle"
             android:layout_alignParentEnd="true"
+            android:layout_below="@+id/str_url"
             android:background="@drawable/button_red"
             android:text="@string/ajouter"
             android:textColor="#fff"
@@ -40,28 +53,22 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
 
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/lien"
-            android:layout_marginTop="151dp"
+            android:layout_alignBaseline="@+id/ajouter"
+            android:layout_alignBottom="@+id/ajouter"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/str_motcle"
             android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/str_titre"
-            android:layout_width="wrap_content"
-            android:layout_height="37dp"
-            android:layout_alignEnd="@+id/str_motcle"
-            android:layout_alignParentTop="true"
-            android:text="@string/titrePDF"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/str_url"
             android:layout_width="wrap_content"
             android:layout_height="37dp"
-            android:layout_alignBaseline="@+id/lien"
+
             android:layout_alignEnd="@+id/str_titre"
+            android:layout_below="@+id/id_titre"
+            android:layout_marginTop="27dp"
             android:text="@string/url"
             android:textSize="18sp" />
 
@@ -69,29 +76,20 @@
             android:id="@+id/str_motcle"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
+
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/id_motcle"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
             android:text="@string/motcléPDF"
             android:textSize="18sp" />
-
-        <ListView
-            android:id="@+id/ListV"
-            android:layout_width="match_parent"
-            android:layout_height="157dp"
-
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/lien"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/ajouter"
-            android:layout_marginBottom="43dp"
-            android:layout_marginStart="14dp"
-            android:layout_toEndOf="@+id/str_url"
+
+            android:layout_alignBaseline="@+id/addPDF"
+            android:layout_alignBottom="@+id/addPDF"
+            android:layout_alignStart="@+id/id_motcle"
             android:background="@drawable/search_layout"
             android:textSize="14sp" />
 
@@ -99,13 +97,20 @@
             android:id="@+id/addPDF"
             android:layout_width="112dp"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/lien"
             android:layout_alignParentEnd="true"
-
+            android:layout_below="@+id/str_titre"
             android:background="@drawable/button_red"
             android:text="@string/choisirPDF"
             android:textColor="#fff"
             android:textSize="12sp" />
+
+        <ListView
+            android:id="@+id/ListV"
+            android:layout_width="match_parent"
+            android:layout_height="157dp"
+
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/str_motcle" />
 
 
     </RelativeLayout>
@@ -116,16 +121,17 @@
 
         <Button
             android:id="@+id/id_enregistrer"
-            android:layout_width="200dp"
+            android:layout_width="199dp"
             android:layout_height="wrap_content"
-
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="23dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
             android:background="@drawable/button_red"
             android:text="@string/enregistrer"
             android:textColor="#fff"
             android:textSize="18sp" />
+
     </RelativeLayout>
 
 

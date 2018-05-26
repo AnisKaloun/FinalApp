@@ -1,10 +1,8 @@
 package com.android.pfe.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +20,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -58,7 +57,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
         id_motcle = findViewById(R.id.id_motcle);
         Button ajouter = findViewById(R.id.ajouter);
         ListView listView = findViewById(R.id.ListV);
-                      path=findViewById(R.id.lien);
+        path=findViewById(R.id.lien);
 
         //********************* ici le nom de l'auteur *************
         String [] item = {};
@@ -69,10 +68,12 @@ public class AjouterArticleActivity extends AppCompatActivity {
         ajouter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newitem = id_motcle.getText().toString();
-                arrayList.add(newitem);
-                adapter.notifyDataSetChanged();
-                id_motcle.setText("");
+                if(!id_motcle.getText().toString().isEmpty()) {
+                    String newitem = id_motcle.getText().toString();
+                    arrayList.add(newitem);
+                    adapter.notifyDataSetChanged();
+                    id_motcle.setText("");
+                }
             }
         });
 
@@ -98,15 +99,18 @@ public class AjouterArticleActivity extends AppCompatActivity {
         enregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String path ="Documents/";
+                Log.w("AddArticle","je suis dans le bouton enregistrer");
+                String emplacement ="Documents/";
                 if(filePath!=null) {
-                    path += UUID.randomUUID().toString();
-                    StorageReference ref = storageReference.child(path);
+                    Log.w("AddArticle","i am in the if");
+                    emplacement += UUID.randomUUID().toString();
+                    Log.w("AddArticle","the link"+emplacement);
+                    StorageReference ref = storageReference.child(emplacement);
                     ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
+                            Log.w("AddArticle","i add the file");
 
                             Log.w("filepath",""+downloadUrl.toString());
                             Article article = new Article();
@@ -122,11 +126,19 @@ public class AjouterArticleActivity extends AppCompatActivity {
 
                             }
 
-
+                            Log.w("AjouterArticle","i'm here");
                             article.addArticle(Userid, author, titrePDF, mot,downloadUrl.toString());
+                            finish();
 
                         }
                     })
+                            .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onProgress(UploadTask.TaskSnapshot snapshot) {
+                                    Toast.makeText(AjouterArticleActivity.this, "en cours "+snapshot.getBytesTransferred(), Toast.LENGTH_SHORT).show();
+                                    Log.w("AjouterArticle","taille envoyé"+snapshot.getBytesTransferred());
+                                }
+                            })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
@@ -136,7 +148,13 @@ public class AjouterArticleActivity extends AppCompatActivity {
                             });
 
 
-                    finish();
+
+                }
+                else
+                {
+
+                    Toast.makeText(AjouterArticleActivity.this, "erreur d'ajout d'article", Toast.LENGTH_SHORT).show();
+
                 }
 
             }
@@ -153,28 +171,8 @@ public class AjouterArticleActivity extends AppCompatActivity {
             filePath = data.getData();
             String mpath = filePath.getPath().toString();
             path.setText(mpath);
-            // "file:///mnt/sdcard/FileName.mp3"
-
 
         }
     }
 
-    public String getPDFPath(Uri uri) {
-        String[] largeFileProjection = { MediaStore.Images.ImageColumns._ID,
-                MediaStore.Images.ImageColumns.DATA };
-        String largeFileSort = MediaStore.Images.ImageColumns._ID + " DESC";
-        Cursor myCursor = this.managedQuery(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                largeFileProjection, null, null, largeFileSort);
-        String largeImagePath = "";
-        try {
-            myCursor.moveToFirst();
-            largeImagePath = myCursor
-                    .getString(myCursor
-                            .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
-        } finally {
-            myCursor.close();
-        }
-        return largeImagePath;
-    }
 }

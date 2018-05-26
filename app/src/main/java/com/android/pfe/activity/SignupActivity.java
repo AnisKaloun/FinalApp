@@ -42,14 +42,13 @@ public class SignupActivity extends AppCompatActivity {
     private static final String TAG ="SignupActivity" ;
     private final int PICK_IMAGE_REQUEST = 71;
     public TextView mfilepath;
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    private FirebaseStorage storage;
+    private  StorageReference storageReference;
     private EditText mEmail,mPseudo,mMdp;
     private Button mEnregistrer;
     private FirebaseAuth auth;
     private int cpt=1;
     private ArrayList articleList;
-    private FirebaseStorage Storage;
     private Uri filePath;
     private TextView mMdpVer;
 
@@ -203,12 +202,13 @@ public class SignupActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         Log.d(TAG, " profile updated.");
-                                                        startActivity(new Intent(SignupActivity.this, MenuActivity.class));
-                                                        finish();
+
                                                     }
                                                 }
                                             });
+
                                     String path ="images/";
+                                    //file path is a uri object 'the user picture'
                                     if(filePath!=null) {
                                         path+=UUID.randomUUID().toString();
                                         StorageReference ref = storageReference.child(path);
@@ -222,10 +222,13 @@ public class SignupActivity extends AppCompatActivity {
                                                 Log.w("filepath",""+downloadUrl.toString());
                                                 uti.addUser(user.getUid(), pseudo, email,downloadUrl.toString());
                                                 uti.addMotcle(articleList, user.getUid());
-                                                uti.recommand(user.getUid());
+
+                                                startActivity(new Intent(SignupActivity.this, MenuActivity.class));
+                                                finish();
 
                                             }
                                         })
+
                                                 .addOnFailureListener(new OnFailureListener() {
                                                     @Override
                                                     public void onFailure(@NonNull Exception e) {

@@ -336,26 +336,79 @@ public class User implements Serializable {
                     if (dataSnapshot.exists())
                     {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Article arti = snapshot.getValue(Article.class);
+                            final Article arti = snapshot.getValue(Article.class);
                             if (arti != null) {
-                               // Log.w("Article ","Article de user "+arti.getid());
-                                if (!arti.getid().equals(userId)) {
-                                    if (arti.getMot_cle() != null) {
-                                        Log.w("Article ","mot clé 1 "+arti.getMot_cle());
-                                        Log.w("Article ","mot clé 2 "+map.getMot_cle());
-                                        double sim = calculerSimi(map.getMot_cle(), arti.getMot_cle());
-                                        Log.w("Sim", " " + sim);
-                                        if (sim > 0.6) {
-                                            //içi on as trouvé que c similaire
-                                            Article docR=new Article();
-                                            docR.setArticleId(arti.getArticleId());
-                                            articleRec.push().setValue(docR);
+                                 //içi on vas lire dans les article déjà recommandé
+                                articleRec.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        boolean found = false;
+                                        if (dataSnapshot.exists()) {
+                                            //des articles ont déjà était recomandé auparavant
+
+                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                Map<String, String> map = (Map) snapshot.getValue();
+                                                Log.w("RechercheArticle","article recommandé "+map.get("articleId"));
+                                                //un article recommandé
+                                                Log.w("RechercheArticle","article a recommandé"+arti.getArticleId());
+                                                //article tiré des articles
+                                                if (map.get("articleId").equals(arti.getArticleId())) {
+                                                    Log.w("RechercheArticle","article déjà recommandé");
+                                                    found=true;
+                                                }
+
+                                            }
+                                            if (!arti.getid().equals(userId) && !found) {
+                                                if (arti.getMot_cle() != null) {
+                                                    Log.w("Article ", "mot clé 1 " + arti.getMot_cle());
+                                                    Log.w("Article ", "mot clé 2 " + map.getMot_cle());
+                                                    double sim = calculerSimi(map.getMot_cle(), arti.getMot_cle());
+                                                    Log.w("Sim", " " + sim);
+                                                    if (sim > 0.6) {
+                                                        //içi on as trouvé que c similaire
+                                                        Article docR = new Article();
+                                                        docR.setArticleId(arti.getArticleId());
+                                                        articleRec.push().setValue(docR);
+
+                                                    }
+
+                                                }
+                                            }
+                                            //on peut integrer les notes içi
+                                            //au cas ou on voudrais que les articles notés ne seront plus recommandé
+
 
                                         }
+                                        else {
+                                            if (!arti.getid().equals(userId)) {
+                                                if (arti.getMot_cle() != null) {
+                                                    Log.w("RechercheArticle","je suis dans le else");
+                                                    Log.w("Article ", "mot clé 1 " + arti.getMot_cle());
+                                                    Log.w("Article ", "mot clé 2 " + map.getMot_cle());
+                                                    double sim = calculerSimi(map.getMot_cle(), arti.getMot_cle());
+                                                    Log.w("Sim", " " + sim);
+                                                    if (sim > 0.6) {
+                                                        //içi on as trouvé que c similaire
+                                                        Article docR = new Article();
+                                                        docR.setArticleId(arti.getArticleId());
+                                                        articleRec.push().setValue(docR);
+
+                                                    }
+
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
                                     }
+                                });
+
+
                                 }
-                            }
                         }
                     }
                 }
@@ -370,6 +423,8 @@ public class User implements Serializable {
 
 
     }
+
+
 
     private double calculerSimi(String mot_cle, String mot_cle1) {
         //içi on calcule avec jacard

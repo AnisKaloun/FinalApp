@@ -43,39 +43,38 @@ import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity {
 
-    // tags used to attach the fragments
-    private static final String TAG_HOME = "home";
-    private static final String TAG_PHOTOS = "photos";
-    private static final String TAG_MOVIES = "movies";
-    private static final String TAG_NOTIFICATIONS = "notifications";
-    private static final String TAG_SETTINGS = "settings";
+    // tags pour les fragments
+    private static final String TAG_HOME = "Home";
+    private static final String TAG_CONTACT = "Contact";
+    private static final String TAG_ARTICLE = "Article";
+    private static final String TAG_RECHERCHE = "Recherche";
+    private static final String TAG_NOTIFICATION = "notification";
   
-        // index to identify current nav menu item
+        // index pour connaitre l'item selectionné
     public static int navItemIndex = 0;
     public static String CURRENT_TAG = TAG_HOME;
 
-
-    // urls to load navigation header background image
-    // and profile image
-   // private static final String urlNavHeaderBg = "http://api.androidhive.info/images/nav_header_img.jpg";
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
-    private ImageView imgNavHeaderBg, imgProfile;
+    private ImageView imgProfile;
     private TextView txtName, txtWebsite,profil;
     private Toolbar toolbar;
     private DatabaseReference mDatabase;
-    // toolbar titles respected to selected nav menu item
+    // les titres des fragments
     private String[] activityTitles;
 
-    // flag to load home fragment when user presses back key
+    // pour recharger le fragment home aprés avoir appuyé sur back
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
     private FirebaseAuth auth;
+
     private DatabaseReference Database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        auth=FirebaseAuth.getInstance();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         toolbar = findViewById(R.id.toolbar);
@@ -83,7 +82,7 @@ public class MenuActivity extends AppCompatActivity {
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
         mHandler = new Handler();
-        //databse
+        //database
         mDatabase = FirebaseDatabase.getInstance().getReference();
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -92,7 +91,7 @@ public class MenuActivity extends AppCompatActivity {
         navHeader = navigationView.getHeaderView(0);
         txtName = navHeader.findViewById(R.id.name);
         txtWebsite = navHeader.findViewById(R.id.job);
-     //   imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+
         imgProfile = navHeader.findViewById(R.id.img_profile);
         
         if(auth.getCurrentUser()!=null) {
@@ -145,8 +144,6 @@ public class MenuActivity extends AppCompatActivity {
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
 
-        // load nav menu header data
-        //loadNavHeader();
         ValueEventListener dotlistener=new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -178,58 +175,22 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-    /***
-     * Load navigation menu header information
-     * like background image, profile image
-     * name, website, notifications action view (dot)
-     */
-    private void loadNavHeader() {
-        // name, email
-        // loading header background image
-      /*  Glide.with(this).load(urlNavHeaderBg)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imgNavHeaderBg);
-
-         Loading profile image
-        Glide.with(this).load(urlProfileImg)
-                .crossFade()
-                .thumbnail(0.5f)
-                .bitmapTransform(new CircleTransform(this))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imgProfile);*/
-
-        // showing dot next to notifications label
-     //   navigationView.getMenu().getItem(4).setActionView(R.layout.menu_dot);
-    }
-
-    /***
-     * Returns respected fragment that user
-     * selected from navigation menu
-     */
     private void loadHomeFragment() {
-        // selecting appropriate nav menu item
+
         selectNavMenu();
 
-        // set toolbar title
         setToolbarTitle();
 
-        // if user select the current navigation menu again, don't do anything
-        // just close the navigation drawer
         if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
             drawer.closeDrawers();
 
             return;
         }
 
-        // Sometimes, when fragment has huge data, screen seems hanging
-        // when switching between navigation menus
-        // So using runnable, the fragment is loaded with cross fade effect
-        // This effect can be seen in GMail app
         Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
-                // update the menu content by replacing fragments
+
                 Fragment fragment = getHomeFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
@@ -239,17 +200,13 @@ public class MenuActivity extends AppCompatActivity {
             }
         };
 
-        // If mPendingRunnable is not null, then add to the message queue
+
         if (mPendingRunnable != null) {
             mHandler.post(mPendingRunnable);
         }
 
-
-
-        //Closing drawer on item click
         drawer.closeDrawers();
 
-        // refresh toolbar menu
         invalidateOptionsMenu();
     }
 
@@ -258,6 +215,7 @@ public class MenuActivity extends AppCompatActivity {
             case 0:
                 // home
                 HomeFragment homeFragment = new HomeFragment();
+
                 return homeFragment;
             case 1:
                 // Contact
@@ -292,16 +250,14 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationView() {
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             // This method will trigger on item Click of navigation menu
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-                //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
-                    //Replacing the menu content with ContentFragment Which is our Inbox View;
+
                     case R.id.home:
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_HOME;
@@ -309,27 +265,26 @@ public class MenuActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_contact:
                         navItemIndex = 1;
-                        CURRENT_TAG = TAG_PHOTOS;
+                        CURRENT_TAG = TAG_CONTACT;
                         break;
                     case R.id.nav_article:
                         navItemIndex = 2;
-                        CURRENT_TAG = TAG_MOVIES;
+                        CURRENT_TAG = TAG_ARTICLE;
                         break;
 
                     case R.id.nav_recherche:
                         navItemIndex = 3;
-                        CURRENT_TAG = TAG_SETTINGS;
+                        CURRENT_TAG = TAG_NOTIFICATION;
                         break;
                     case R.id.nav_notifications:
                         navItemIndex = 4;
-                        CURRENT_TAG = TAG_NOTIFICATIONS;
+                        CURRENT_TAG = TAG_RECHERCHE;
                         break;
                     default:
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_HOME;
                 }
 
-                //Checking if the item is in checked state or not, if not make it in checked state
                 if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
                 } else {
@@ -348,13 +303,11 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -373,11 +326,9 @@ public class MenuActivity extends AppCompatActivity {
             return;
         }
 
-        // This code loads home fragment when back key is pressed
-        // when user is in other fragment than home
+
         if (shouldLoadHomeFragOnBackPress) {
-            // checking if user is on other navigation menu
-            // rather than home
+
             if (navItemIndex != 0) {
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
@@ -391,14 +342,12 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
 
-        // show menu only when home fragment is selected
         if (navItemIndex == 0) {
             getMenuInflater().inflate(R.menu.menu, menu);
         }
 
-        // when fragment is notifications, load the menu created for notifications
+
         if (navItemIndex == 4) {
             getMenuInflater().inflate(R.menu.notifications, menu);
         }
@@ -407,18 +356,15 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_logout) {
             Toast.makeText(getApplicationContext(), "vous allez vous déconnecter", Toast.LENGTH_LONG).show();
             auth.signOut();
             finish();
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-          //  return true;
         }
 
         // user is in notifications fragment

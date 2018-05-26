@@ -39,7 +39,8 @@
         <string name="supprimer">Supprimer</string>
         <string name="choisirPDF">Ajouter un pdf</string>
         <string name="photo">Photos</string>
-
+    <string name="ListeMotClé">Mot clé</string>
+    <string name="ListeArticleRecherché">Liste Article</string>
 
     <!--signup page-->
 
