@@ -20,10 +20,10 @@ public class Article implements Serializable {
     private String titre;
     private String auteur;
     private String articleId;
-   // private float note ;
+    private float note ;
     private String id;
     private String PdfUrl;
-
+    private int nbrvote;
     public Article() {
 
         // Default constructor required for calls to DataSnapshot.getValue(com.android.pfe.other.User.class)
@@ -38,7 +38,8 @@ public class Article implements Serializable {
         this.articleId=articleId;
         this.mot_cle=mot_cle;
         this.PdfUrl=s;
-
+        this.note=0;
+        this.nbrvote=0;
 
     }
 
@@ -114,6 +115,9 @@ public class Article implements Serializable {
         return mot_cle;
     }
 
+    public void setMot_cle(String mot_cle) {
+        this.mot_cle = mot_cle;
+    }
 
     public String getPdfUrl() {
         return PdfUrl;
@@ -121,6 +125,22 @@ public class Article implements Serializable {
 
     public void setPdfUrl(String pdfUrl) {
         PdfUrl = pdfUrl;
+    }
+
+    public int getNbrvote() {
+        return nbrvote;
+    }
+
+    public void setNbrvote(int nbrvote) {
+        this.nbrvote = nbrvote;
+    }
+
+    public float getNote() {
+        return note;
+    }
+
+    public void setNote(float note) {
+        this.note = note;
     }
 }
 

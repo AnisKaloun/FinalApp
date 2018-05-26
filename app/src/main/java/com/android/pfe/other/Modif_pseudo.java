@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.pfe.R;
-import com.android.pfe.activity.MenuActivity;
+import com.android.pfe.activity.ProfilActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,14 +66,15 @@ public class Modif_pseudo extends Activity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 Log.d(TAG, "User profile updated.");
+                                                mDatabase.setValue(mNouveauUser.getText().toString());
+
+                                                Intent insc = new Intent(Modif_pseudo.this,ProfilActivity.class);
+                                                startActivity(insc);
                                             }
                                         }
                                     });
 
-                            mDatabase.setValue(mNouveauUser.getText().toString());
 
-                            Intent insc = new Intent(Modif_pseudo.this,MenuActivity.class);
-                            startActivity(insc);
                         }
                         else
                         {

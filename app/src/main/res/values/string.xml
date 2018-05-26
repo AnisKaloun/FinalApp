@@ -41,6 +41,7 @@
         <string name="photo">Photos</string>
     <string name="ListeMotClé">Mot clé</string>
     <string name="ListeArticleRecherché">Liste Article</string>
+    <string name="ajouterArticle">Ajouter Article</string>
 
     <!--signup page-->
 

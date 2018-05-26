@@ -3,40 +3,189 @@ package com.android.pfe.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.pfe.R;
 import com.android.pfe.other.AdaptorDesir;
+import com.android.pfe.other.AdaptorDesirMotcle;
+import com.android.pfe.other.Article;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ProfilActivity extends AppCompatActivity implements OnClickListener {
+public class ProfilActivity extends AppCompatActivity{
     private ArrayList<String> arrayList1;
     private ArrayList<String> arrayList2;
 
-    // private EditText txtinput ;
+    private TextView txtemail,txtpseudo ;
 
     private Button modifPseudo,modifEmail,modifMdp,MajListe,enregModif;
 
+    private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
+    private ListView listViewMotCle,listViewArticle;
+    private ArrayList<String> article;
+    private AdaptorDesir adapter2;
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            article.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Article arti = snapshot.getValue(Article.class);
+                    if(arti!=null) {
+                        article.add(arti.getTitre());
+                    }
+                }
 
+                adapter2.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+    private AdaptorDesirMotcle adapter1;
+    private ArrayList<String> motcle;
+    ValueEventListener valueEventListener2 = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            motcle.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Article arti = snapshot.getValue(Article.class);
+                    if(arti!=null) {
+
+                        String mot=arti.getMot_cle();
+                        String[] splited = mot.split("\\s+");
+                        for(int i=0;i<splited.length;i++)
+                        {
+                            Log.w("Motcle"," "+splited[i]);
+                            motcle.add(splited[i]);
+                        }
+
+                    }
+                }
+
+                adapter1.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+    private Query mDatabase2;
+    private String CurrentTitle;
+    private Query mdata;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profil);
+        auth = FirebaseAuth.getInstance();
 
+       setTitle("Profil");
 
-        //  setTitle("Profil");
-
-
+         CurrentTitle=new String();
         //**********ici on vas utiliser les bouttons du profil ^pour les modification****
         modifPseudo = findViewById(R.id.modifPseudo);
         modifEmail = findViewById(R.id.modifEmail);
         modifMdp = findViewById(R.id.modifMdp);
         MajListe = findViewById(R.id.MajListe);
+        txtemail=findViewById(R.id.txtEmail);
+        txtpseudo=findViewById(R.id.txtPseudo);
         enregModif = findViewById(R.id.enregModif);
+        listViewMotCle = findViewById(R.id.ListVMotcle);
+        listViewArticle = findViewById(R.id.ListVArticle);
+        txtemail.setText(auth.getCurrentUser().getEmail());
+        txtpseudo.setText(auth.getCurrentUser().getDisplayName());
+        mDatabase= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
+                .child("ArticleDesire");
+        mDatabase.addValueEventListener(valueEventListener);
+
+         motcle = new ArrayList<>();
+        article = new ArrayList<>();
+        adapter1 = new AdaptorDesirMotcle(getApplicationContext(),motcle);
+        listViewMotCle.setAdapter(adapter1);
+
+        adapter2 = new AdaptorDesir(getApplicationContext(),article);
+        listViewArticle.setAdapter(adapter2);
+
+
+        adapter1.setListener(new AdaptorDesirMotcle.onChecked() {
+            @Override
+            public void checkedListener(final String article) {
+                  if(CurrentTitle!=null)
+                  {
+                      mdata= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
+                              .child("ArticleDesire").orderByChild("titre").equalTo(CurrentTitle);
+                      mdata.addListenerForSingleValueEvent(new ValueEventListener() {
+                          @Override
+                          public void onDataChange(DataSnapshot dataSnapshot) {
+
+                              if (dataSnapshot.exists()) {
+                                  for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                      Article arti = snapshot.getValue(Article.class);
+                                      if(arti!=null) {
+                                          String mot=arti.getMot_cle();
+                                          mot.replace(article+" ","");
+                                          Log.w("ReplaceMot","mot remplacé"+mot);
+                                          arti.setMot_cle(mot);
+                                         snapshot.getRef().setValue(arti);
+                                      }
+
+                                  }
+
+
+                              }
+                          }
+
+                          @Override
+                          public void onCancelled(DatabaseError databaseError) {
+
+                          }
+                      });
+
+                  }
+
+            }
+        });
+
+
+        listViewArticle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String titre= (String)parent.getItemAtPosition(position);
+                CurrentTitle=titre;
+                motcle.clear();
+                mDatabase2= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
+                        .child("ArticleDesire").orderByChild("titre").equalTo(titre);
+                mDatabase2.addValueEventListener(valueEventListener2);
+            }
+        });
+
+
+
+
+
+
+
+
 
         modifPseudo.setOnClickListener(new OnClickListener() {
 
@@ -89,63 +238,6 @@ public class ProfilActivity extends AppCompatActivity implements OnClickListener
 
 
 
-        // *******gerer la liste view ****
-
-       /* ListView listView = (ListView)findViewById(R.id.ListV);
-        String [] item = {};
-        arrayList = new ArrayList<>(Arrays.asList(item));
-        adapter = new ArrayAdapter<String>(this,R.layout.list_motcle,R.id.txtitem,arrayList);
-        listView.setAdapter(adapter);
-        /*txtinput=(EditText)findViewById(R.id.txtinput);
-        Button btadd = (Button)findViewById(R.id.btadd);
-        btadd.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newitem = txtinput.getText().toString();
-                arrayList.add(newitem);
-                adapter.notifyDataSetChanged();
-            }
-        });*/
-
-
-        ListView listViewMotCle = findViewById(R.id.ListVMotcle);
-        ListView listViewArticle = findViewById(R.id.ListVArticle);
-
-        final ArrayList<String> motcle = new ArrayList<>();
-        motcle.add("Java");
-        motcle.add("Android");
-        motcle.add("XML");
-
-        final ArrayList<String> article = new ArrayList<String>();
-        article.add("Article1");
-        article.add("Article2");
-
-        AdaptorDesir adapter1 ;
-        AdaptorDesir adapter2 ;
-
-
-
-        adapter1 = new AdaptorDesir(getApplicationContext(),motcle);
-        adapter2 = new AdaptorDesir(getApplicationContext(),article);
-
-
-
-
-
-
-        //oui c vrai kan hakda mais doka chez toi kayen erreur
-        // bah oui att
-        listViewMotCle.setAdapter(adapter1);
-        listViewArticle.setAdapter(adapter2);
-
-
-
-
-
-    }
-
-    @Override
-    public void onClick(View v) {
 
     }
 }

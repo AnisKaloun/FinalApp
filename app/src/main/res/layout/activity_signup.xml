@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -13,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="407dp">
+        android:layout_height="375dp">
 
 
         <EditText
@@ -45,7 +44,7 @@
             android:layout_alignBottom="@+id/email"
             android:layout_alignParentStart="true"
             android:text="@string/email"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/mdp"
@@ -66,7 +65,7 @@
             android:layout_alignBottom="@+id/mdp"
             android:layout_alignParentStart="true"
             android:text="@string/mdp"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView5"
@@ -76,15 +75,16 @@
             android:layout_alignBottom="@+id/pseudo"
             android:layout_alignParentStart="true"
             android:text="@string/pseudo"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/photo"
             android:layout_width="150dp"
             android:layout_height="30dp"
+            android:layout_alignBaseline="@+id/choisirPhoto"
             android:layout_alignBottom="@+id/choisirPhoto"
-            android:layout_marginStart="13dp"
-            android:layout_toEndOf="@+id/pht"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/textView5"
             android:background="@drawable/search_layout"
             android:textSize="14sp" />
 
@@ -92,10 +92,11 @@
             android:id="@+id/pht"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView5"
-            android:layout_alignTop="@+id/photo"
+            android:layout_alignBaseline="@+id/photo"
+            android:layout_alignBottom="@+id/photo"
+            android:layout_alignParentStart="true"
             android:text="@string/photo"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/editText15"
@@ -114,25 +115,26 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/textView4"
             android:layout_below="@+id/mdp"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="14dp"
             android:text="@string/cmdp"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="91dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/choisirPhoto"
+            android:layout_below="@+id/photo"
+            android:layout_toStartOf="@+id/txtinput"
             android:text="@string/amc"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/txtinput"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
+            android:layout_alignBaseline="@+id/ajouterMcl"
+            android:layout_alignBottom="@+id/ajouterMcl"
             android:layout_alignStart="@+id/photo"
-            android:layout_alignTop="@+id/ajouterMcl"
             android:width="150dp"
             android:background="@drawable/search_layout"
             android:ems="10"
@@ -143,26 +145,62 @@
             android:id="@+id/list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignStart="@+id/pht"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/textView7"
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <ListView
-                android:id="@+id/ListVMotcle"
-                android:layout_width="0dp"
-                android:layout_height="144dp"
-                android:layout_alignBottom="@+id/btAddArticle"
-                android:layout_alignEnd="@+id/btAddArticle"
-                android:layout_weight="1" />
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-            <ListView
-                android:id="@+id/ListVArticle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/list"
-                android:layout_weight="1" />
+                android:layout_width="185dp"
+                android:layout_height="fill_parent"
+
+
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="171dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ListeMotClé"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="12sp" />
+
+                <ListView
+                    android:id="@+id/ListVMotcle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/btAddArticle"
+                    android:layout_alignEnd="@+id/btAddArticle"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="184dp"
+                android:layout_height="fill_parent"
+
+
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="171dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ListeArticleRecherché"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="12sp" />
+
+                <ListView
+                    android:id="@+id/ListVArticle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/list"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -191,42 +229,32 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="407dp">
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/btaddArticle"
-            android:layout_width="100dp"
+            android:layout_width="150sp"
             android:layout_height="35dp"
 
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_red"
-            android:text="@string/ajouter"
+            android:text="@string/ajouterArticle"
             android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
+
         <Button
             android:id="@+id/enregCompte"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
 
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/btaddArticle"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/button_red"
             android:text="@string/enregistrer"
             android:textColor="#fff"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/btadd"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_above="@+id/enregCompte"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="262dp"
-            android:background="@drawable/button_red"
-            android:text="@string/ajouter"
-            android:textColor="#fff"
-            android:textSize="12sp" />
     </RelativeLayout>
 </LinearLayout>

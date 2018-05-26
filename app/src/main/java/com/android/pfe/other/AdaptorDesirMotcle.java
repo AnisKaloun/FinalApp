@@ -10,11 +10,7 @@ import android.widget.TextView;
 
 import com.android.pfe.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -23,13 +19,14 @@ import java.util.ArrayList;
  * Created by lety2018 on 20/04/2018.
  */
 
-public class AdaptorDesir extends ArrayAdapter<String> {
+public class AdaptorDesirMotcle extends ArrayAdapter<String> {
 
 
     private Query mDatabase;
     private FirebaseAuth auth;
+    private onChecked listener;
 
-    public AdaptorDesir(Context context, ArrayList<String> myList) {
+    public AdaptorDesirMotcle(Context context, ArrayList<String> myList) {
         super(context,0,myList);
 
     }
@@ -38,7 +35,7 @@ public class AdaptorDesir extends ArrayAdapter<String> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-         auth=FirebaseAuth.getInstance();
+
         final String item = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_item_article_desir, parent, false);
@@ -54,35 +51,24 @@ public class AdaptorDesir extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
 
+                if (listener != null) //call interface
+                    listener.checkedListener(item);
                 remove(getItem(position));
-
-                mDatabase= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString()).child("ArticleDesire").orderByChild("titre")
-                        .equalTo(item);
-                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists())
-                        {
-                            for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                                snapshot.getRef().removeValue();
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
 
             }
         });
 
 
 
-
         return convertView;
+    }
+
+    public void setListener(onChecked listener) {
+        this.listener = listener;
+    }
+
+    public interface onChecked {
+        void checkedListener(String article);
     }
 
 
