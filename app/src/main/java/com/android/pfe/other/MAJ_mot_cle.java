@@ -1,6 +1,7 @@
 package com.android.pfe.other;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +11,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.pfe.R;
+import com.android.pfe.activity.ProfilActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,14 +30,36 @@ public class MAJ_mot_cle extends Activity {
     private int cpt=1;
     private ArrayList articleList;
     private ArrayAdapter<String> adapter ;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth auth;
+    private Button btenregistrer;
+    private DatabaseReference mDatabase2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modif_mot_cle);
+        auth=FirebaseAuth.getInstance();
+        mDatabase= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
+                .child("ArticleDesire");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
+                {
+                ArrayList article= (ArrayList) dataSnapshot.getValue();
+                cpt=article.size()+1;
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         final ArrayList<String> arrayList;
 
-        final EditText txtinput ;
+        final EditText txtinput;
         articleList=new ArrayList<Article>();
         ListView listViewMotCle = findViewById(R.id.ListVMotcle);
         ListView listViewArticle=findViewById(R.id.ListVArticle);
@@ -90,6 +120,38 @@ public class MAJ_mot_cle extends Activity {
                 }
             }
         });
+
+
+        btenregistrer=findViewById(R.id.enregCompte);
+        btenregistrer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDatabase2= FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid().toString())
+                        .child("ArticleDesire");
+                mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists())
+                        {
+                            ArrayList article= (ArrayList) dataSnapshot.getValue();
+                            article.addAll(articleList);
+
+                            dataSnapshot.getRef().setValue(article);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                Intent insc = new Intent(MAJ_mot_cle.this, ProfilActivity.class);
+                startActivity(insc);
+
+            }
+        });
+
 
 
     }

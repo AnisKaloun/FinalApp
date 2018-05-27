@@ -1,7 +1,5 @@
 package com.android.pfe.other;
 
-import android.support.annotation.Keep;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -12,21 +10,20 @@ import java.io.Serializable;
  * Created by lety2018 on 15/04/2018.
  */
 @IgnoreExtraProperties
-@Keep
+
 public class Article implements Serializable {
 
     private static final String TAG ="Article";
+    public  float note ;
+    public int nbrvote;
     private String mot_cle;
     private String titre;
     private String auteur;
     private String articleId;
-    private float note ;
     private String id;
     private String PdfUrl;
-    private int nbrvote;
-    public Article() {
 
-        // Default constructor required for calls to DataSnapshot.getValue(com.android.pfe.other.User.class)
+    public Article() {
 
     }
 
@@ -38,8 +35,8 @@ public class Article implements Serializable {
         this.articleId=articleId;
         this.mot_cle=mot_cle;
         this.PdfUrl=s;
-        this.note=0;
-        this.nbrvote=0;
+       // this.note=0;
+       // this.nbrvote=0;
 
     }
 
@@ -76,9 +73,10 @@ public class Article implements Serializable {
     public String getTitre() {
         return titre;
     }
- /*   public float getNote() {
-        return note;
-    }*/
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
     public void addArticle(String user, String auteur, String titre, String motcle, String s)
     {
@@ -105,7 +103,6 @@ public class Article implements Serializable {
 
 
     }
-
 
     public String getid() {
         return id;

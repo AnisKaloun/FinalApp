@@ -15,6 +15,7 @@ import com.android.pfe.R;
 import com.android.pfe.other.AdaptorDesir;
 import com.android.pfe.other.AdaptorDesirMotcle;
 import com.android.pfe.other.Article;
+import com.android.pfe.other.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -143,10 +144,14 @@ public class ProfilActivity extends AppCompatActivity{
                                       Article arti = snapshot.getValue(Article.class);
                                       if(arti!=null) {
                                           String mot=arti.getMot_cle();
-                                          mot.replace(article+" ","");
-                                          Log.w("ReplaceMot","mot remplacé"+mot);
-                                          arti.setMot_cle(mot);
-                                         snapshot.getRef().setValue(arti);
+                                          String motaenlever=article+" ";
+                                          Log.w("ReplaceMot","Mot a enlever"+motaenlever);
+
+                                          String newword=mot.replace(motaenlever,"");
+                                          Log.w("ReplaceMot","mot remplacé"+newword);
+
+                                          Article doc=new Article(newword,arti.getTitre());
+                                         snapshot.getRef().setValue(doc);
                                       }
 
                                   }
@@ -228,6 +233,9 @@ public class ProfilActivity extends AppCompatActivity{
 
                                           public void onClick (View v){
 
+                                              User uti=new User();
+                                              uti.recommand(auth.getCurrentUser().getUid());
+                                              //techniquement sa sert a rien mais au cas ou
                                               Intent insc = new Intent(ProfilActivity.this,MenuActivity.class);
                                               startActivity(insc);
                                           }
