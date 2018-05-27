@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.android.pfe.R;
 import com.android.pfe.other.Article;
-import com.android.pfe.other.HomeAdaptor;
+import com.android.pfe.other.ArticlesansnoteAdaptor;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,7 +27,7 @@ public class RechercheFragment extends Fragment {
     private RadioGroup mRdGrp;
     private View mSearch;
     private ArrayList<Article> Recherche;
-    private HomeAdaptor adaptor;
+    private ArticlesansnoteAdaptor adaptor;
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,7 +95,7 @@ public class RechercheFragment extends Fragment {
         });
 
 
-        adaptor = new HomeAdaptor(getActivity(),Recherche);
+        adaptor = new ArticlesansnoteAdaptor(getActivity(),Recherche);
 
         list.setAdapter(adaptor);
 

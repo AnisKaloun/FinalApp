@@ -88,7 +88,9 @@
         android:scrollbarSize="4dp"
         android:scrollbarThumbVertical="@drawable/scrollbar"
         android:scrollbars="vertical"
-        tools:context="com.android.pfe.fragment.ContactFragment"></ListView>
+        tools:context="com.android.pfe.fragment.ContactFragment">
+
+    </ListView>
 
 
 </LinearLayout>
