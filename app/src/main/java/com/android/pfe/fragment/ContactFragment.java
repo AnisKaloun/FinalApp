@@ -86,7 +86,7 @@ public class ContactFragment extends Fragment  {
                 email.setText("");
             }
             else{
-                    Toast.makeText(getActivity(),"Action refusé",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Erreur:veuillez introduire une autre addresse mail",Toast.LENGTH_LONG).show();
                 }
             }
         });
