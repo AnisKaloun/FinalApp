@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,9 +56,19 @@ public class HomeAdaptor extends ArrayAdapter<Article>  {
         final TextView txt = convertView.findViewById(R.id.titre);
         final TextView txt2 = convertView.findViewById(R.id.auteur);
         final TextView txt3 = convertView.findViewById(R.id.motcle);
+
+
         Button lire = convertView.findViewById(R.id.lirePDF);
         Button mPartager= convertView.findViewById(R.id.partagerPDF);
         Button mTelecharger=convertView.findViewById(R.id.telechargerPDF);
+
+
+        RatingBar etoiles = convertView.findViewById(R.id.etoiles);
+
+
+        // ************** elle est là la note !!
+
+        double note = etoiles.getRating();
 
         final String rec_titre = item.getTitre();
         final String rec_auteur = item.getAuteur();
@@ -65,6 +76,8 @@ public class HomeAdaptor extends ArrayAdapter<Article>  {
         txt.setText(item.getTitre());
         txt2.setText(item.getAuteur());
         txt3.setText(item.getMot_cle());
+
+
         lire.setOnClickListener(new View.OnClickListener() {
 
             @Override

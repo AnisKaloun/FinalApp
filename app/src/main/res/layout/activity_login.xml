@@ -93,17 +93,18 @@
         android:textAllCaps="true"
         android:textColor="#000435" />
 
+
     <ProgressBar
         android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/Register"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="20dp"
-        android:indeterminate="true"
         android:indeterminateTint="#000435"
         android:indeterminateTintMode="src_atop"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 
 </RelativeLayout>
