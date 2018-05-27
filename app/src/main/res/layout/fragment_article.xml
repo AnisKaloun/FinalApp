@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="409dp">
+        android:layout_height="800dp">
 
         <ListView
             android:id="@+id/MesArticles"
@@ -28,7 +28,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="414dp">
+        android:layout_height="200dp">
 
         <Button
             android:id="@+id/AjouterDocument"

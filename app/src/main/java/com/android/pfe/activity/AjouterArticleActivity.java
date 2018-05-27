@@ -146,7 +146,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-
+                                    mProgressBar.setVisibility(View.GONE);
                                     Toast.makeText(AjouterArticleActivity.this, "Erreur lors de l'envoie du fichier", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -156,7 +156,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
                 }
                 else
                 {
-
+                    mProgressBar.setVisibility(View.GONE);
                     Toast.makeText(AjouterArticleActivity.this, "erreur d'ajout d'article", Toast.LENGTH_SHORT).show();
 
                 }
