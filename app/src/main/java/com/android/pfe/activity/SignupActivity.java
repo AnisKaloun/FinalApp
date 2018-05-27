@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class SignupActivity extends AppCompatActivity {
     private ArrayList articleList;
     private Uri filePath;
     private TextView mMdpVer;
-
+    private ProgressBar mProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,11 +139,12 @@ public class SignupActivity extends AppCompatActivity {
         mMdp= findViewById(R.id.mdp);
         mMdpVer=findViewById(R.id.editText15);
         mEnregistrer= findViewById(R.id.enregCompte);
+        mProgressBar=findViewById(R.id.progressBar);
 
     mEnregistrer.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            mProgressBar.setVisibility(View.VISIBLE);
             final String email = mEmail.getText().toString().trim();
             String password = mMdp.getText().toString().trim();
             String passver=mMdpVer.getText().toString().trim();
@@ -183,7 +185,7 @@ public class SignupActivity extends AppCompatActivity {
                     .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            //progressBar.setVisibility(View.GONE);
+                            mProgressBar.setVisibility(View.GONE);
 
                             if (task.isSuccessful()) {
 
@@ -233,7 +235,7 @@ public class SignupActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onFailure(@NonNull Exception e) {
 
-                                                        Toast.makeText(SignupActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(SignupActivity.this, "erreur lors de l'envoie de l'image ", Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
 
@@ -244,7 +246,7 @@ public class SignupActivity extends AppCompatActivity {
                                 }
                            //*****************************************************
                             } else {
-                                Toast.makeText(SignupActivity.this, "erreur d'inscription" + task.getException().getMessage(),
+                                Toast.makeText(SignupActivity.this, "une erreur est survenue lors de l'inscription ",
                                         Toast.LENGTH_SHORT).show();
 
 

@@ -1,29 +1,30 @@
 package com.android.pfe.other;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 
 /**
  * Created by lety2018 on 15/04/2018.
  */
-@IgnoreExtraProperties
 
-public class Article implements Serializable {
+public class Article implements Serializable{
 
     private static final String TAG ="Article";
-    public  float note ;
-    public int nbrvote;
     private String mot_cle;
     private String titre;
     private String auteur;
     private String articleId;
     private String id;
     private String PdfUrl;
+    @Exclude
+    private int nbrvote;
+    private float note;
 
     public Article() {
+
 
     }
 
@@ -124,20 +125,21 @@ public class Article implements Serializable {
         PdfUrl = pdfUrl;
     }
 
-    public int getNbrvote() {
-        return nbrvote;
-    }
-
-    public void setNbrvote(int nbrvote) {
-        this.nbrvote = nbrvote;
-    }
-
+    @Exclude
     public float getNote() {
         return note;
     }
-
+    @Exclude
     public void setNote(float note) {
         this.note = note;
+    }
+    @Exclude
+    public int getNbrvote() {
+        return nbrvote;
+    }
+    @Exclude
+    public void setNbrvote(int nbrvote) {
+        this.nbrvote = nbrvote;
     }
 }
 

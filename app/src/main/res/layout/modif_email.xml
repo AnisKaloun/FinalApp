@@ -16,10 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="21dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="38dp"
             android:text="@string/ancienE"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/ancienEmail"
@@ -27,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textView2"
             android:layout_alignBottom="@+id/textView2"
-            android:layout_alignStart="@+id/newEmail"
+            android:layout_marginStart="67dp"
+            android:layout_toEndOf="@+id/textView2"
             android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName"
@@ -37,19 +37,18 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView2"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/ancienEmail"
-            android:layout_marginTop="47dp"
+            android:layout_marginTop="33dp"
             android:text="@string/nouveauE"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/newEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView8"
-            android:layout_alignBottom="@+id/textView8"
-            android:layout_alignStart="@+id/enregistrerEmail"
+            android:layout_alignStart="@+id/ancienEmail"
+            android:layout_alignTop="@+id/textView8"
             android:background="@drawable/txt_gray"
             android:ems="10"
             android:inputType="textPersonName"
@@ -59,13 +58,13 @@
             android:id="@+id/enregistrerEmail"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/newEmail"
-            android:layout_marginTop="65dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="68dp"
             android:background="@drawable/button_red"
             android:text="@string/enregistrer"
             android:textColor="#fff"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
 
     </RelativeLayout>

@@ -22,6 +22,5 @@
         android:text="X"
         android:textColor="#000"
         android:textSize="14sp"
-        tools:ignore="InvalidId"
-        />
+        tools:ignore="InvalidId" />
 </LinearLayout>

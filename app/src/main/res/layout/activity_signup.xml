@@ -255,6 +255,17 @@
             android:text="@string/enregistrer"
             android:textColor="#fff"
             android:textSize="18sp" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/enregCompte"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="20dp"
+            android:indeterminate="true"
+            android:indeterminateTint="#000435"
+            android:indeterminateTintMode="src_atop"
+            android:visibility="gone" />
 
     </RelativeLayout>
 </LinearLayout>

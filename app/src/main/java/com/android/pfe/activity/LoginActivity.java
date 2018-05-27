@@ -1,13 +1,14 @@
 package com.android.pfe.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView RegisterLink;
     private Button LogButton;
     private FirebaseAuth auth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +38,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
-        MailAdress=(EditText) findViewById(R.id.MailAdress);
-        Password=(EditText) findViewById(R.id.Password);
-        LogButton=(Button) findViewById(R.id.LogButton);
-        RegisterLink= (TextView) findViewById(R.id.Register);
+        MailAdress= findViewById(R.id.MailAdress);
+        Password= findViewById(R.id.Password);
+        LogButton= findViewById(R.id.LogButton);
+        progressBar= findViewById(R.id.progressBar);
+        RegisterLink= findViewById(R.id.Register);
         LogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-              //  progressBar.setVisibility(View.VISIBLE);
+              progressBar.setVisibility(View.VISIBLE);
 
                 //authenticate user
 
@@ -67,16 +70,17 @@ public class LoginActivity extends AppCompatActivity {
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
-                               // progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 6) {
                                         Toast.makeText(LoginActivity.this, "mot de passe trop court", Toast.LENGTH_LONG).show();
 
                                     } else {
-                                        Toast.makeText(LoginActivity.this, "erreur de connexion", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(LoginActivity.this, "Email ou Mot de passe incorrect", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+
                                     Intent menu = new Intent(getApplicationContext(),MenuActivity.class);
                                     startActivity(menu);
                                     finish();

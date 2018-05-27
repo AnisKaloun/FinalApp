@@ -199,8 +199,9 @@
             android:layout_below="@+id/modifMdp"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_red"
-            android:text="@string/maj_motcle"
-            android:textColor="#fff" />
+            android:text="@string/ajouterArticle"
+            android:textColor="#fff"
+            android:textSize="11sp" />
 
 
     </RelativeLayout>

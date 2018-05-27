@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
     private TextView path;
     private StorageReference storageReference;
     private FirebaseStorage storage;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
         id_motcle = findViewById(R.id.id_motcle);
         Button ajouter = findViewById(R.id.ajouter);
         ListView listView = findViewById(R.id.ListV);
+        mProgressBar=findViewById(R.id.progressBar);
         path=findViewById(R.id.lien);
 
         //********************* ici le nom de l'auteur *************
@@ -99,6 +102,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
         enregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Log.w("AddArticle","je suis dans le bouton enregistrer");
                 String emplacement ="Documents/";
                 if(filePath!=null) {
@@ -125,9 +129,9 @@ public class AjouterArticleActivity extends AppCompatActivity {
                                 }
 
                             }
-
                             Log.w("AjouterArticle","i'm here");
                             article.addArticle(Userid, author, titrePDF, mot,downloadUrl.toString());
+                            mProgressBar.setVisibility(View.GONE);
                             finish();
 
                         }
@@ -135,7 +139,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
                             .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onProgress(UploadTask.TaskSnapshot snapshot) {
-                                    Toast.makeText(AjouterArticleActivity.this, "en cours "+snapshot.getBytesTransferred(), Toast.LENGTH_SHORT).show();
+                                    mProgressBar.setVisibility(View.VISIBLE);
                                     Log.w("AjouterArticle","taille envoyé"+snapshot.getBytesTransferred());
                                 }
                             })
@@ -143,7 +147,7 @@ public class AjouterArticleActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
 
-                                    Toast.makeText(AjouterArticleActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AjouterArticleActivity.this, "Erreur lors de l'envoie du fichier", Toast.LENGTH_SHORT).show();
                                 }
                             });
 

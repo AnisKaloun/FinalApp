@@ -7,34 +7,42 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <ListView
-        android:id="@+id/MesArticles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginRight="10dp"
-        android:scrollbarSize="4dp"
-        android:scrollbarThumbVertical="@drawable/scrollbar"
-        android:scrollbars="vertical"
-        tools:context="com.android.pfe.fragment.ArticleFragment">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="409dp">
 
-    </ListView>
+        <ListView
+            android:id="@+id/MesArticles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="10dp"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical"
+            tools:context="com.android.pfe.fragment.ArticleFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:gravity="center|bottom"
-        android:orientation="vertical" >
-    <Button
-        android:id="@+id/AjouterDocument"
-        android:layout_width="360dp"
-        android:layout_height="42dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/MesArticles"
-        android:layout_gravity="center|bottom"
-        android:gravity="center"
-        android:text="Ajouter" />
-    </LinearLayout>
+        </ListView>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="414dp">
+
+        <Button
+            android:id="@+id/AjouterDocument"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center|bottom"
+            android:layout_marginEnd="73dp"
+            android:background="@drawable/button_red"
+            android:gravity="center"
+            android:text="Ajouter"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
 </LinearLayout>

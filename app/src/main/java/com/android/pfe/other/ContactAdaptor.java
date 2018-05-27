@@ -80,7 +80,7 @@ public class ContactAdaptor extends ArrayAdapter<User> {
 
             }
         });
-        Button Supp= convertView.findViewById(R.id.delete_contact);
+        Button Supp= convertView.findViewById(R.id.button7);
         Supp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

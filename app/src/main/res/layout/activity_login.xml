@@ -6,22 +6,22 @@
     android:layout_height="match_parent"
     android:background="@drawable/blanc"
     tools:context="com.android.pfe.activity.LoginActivity">
+
     <EditText
         android:id="@+id/MailAdress"
         android:layout_width="200dp"
         android:layout_height="20dp"
-        android:layout_alignLeft="@+id/LogButton"
-        android:layout_alignStart="@+id/LogButton"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="39dp"
-        android:layout_marginStart="39dp"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="43dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_mail"
-
+        android:drawableTint="#010041"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
         android:textSize="16sp" />
+
     <EditText
         android:id="@+id/Password"
         android:layout_width="200dp"
@@ -32,9 +32,9 @@
         android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_password"
+        android:drawableTint="#010041"
         android:ems="10"
-
-        android:hint="Mot de passe"
+        android:hint="Mot_de_passe"
         android:inputType="textPassword" />
 
     <Button
@@ -71,25 +71,40 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/aguafina_script"
         android:text="P R"
         android:textAllCaps="true"
-        android:textSize="18dp" />
+        android:textColor="#000435"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/MailAdress"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
         android:text="Publication Recommander"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:textColor="#000435" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/Register"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="20dp"
+        android:indeterminate="true"
+        android:indeterminateTint="#000435"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone" />
+
 
 </RelativeLayout>
 

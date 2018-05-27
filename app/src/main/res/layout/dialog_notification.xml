@@ -60,39 +60,39 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="44dp"
+        android:layout_height="37dp"
         android:orientation="horizontal">
 
 
         <Button
             android:id="@+id/lirePDF"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="33dp"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:textColor="#fff"
             android:text="@string/lire"
+            android:textColor="#fff"
             android:textSize="7sp" />
 
 
         <Button
             android:id="@+id/telechargerPDF"
             android:layout_width="104dp"
-            android:layout_height="match_parent"
+            android:layout_height="33dp"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:textColor="#fff"
             android:text="@string/telecharger"
+            android:textColor="#fff"
             android:textSize="7sp" />
 
         <Button
             android:id="@+id/partagerPDF"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="33dp"
             android:layout_weight="1"
             android:background="@drawable/button_red"
-            android:textColor="#fff"
             android:text="@string/partager"
+            android:textColor="#fff"
             android:textSize="7sp" />
 
         <TextView
@@ -108,13 +108,14 @@
         <RatingBar
             android:id="@+id/noter"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_gravity="center_vertical"
             android:backgroundTint="#ffff00"
+            android:foregroundGravity="top"
             android:numStars="1"
             android:rating="1"
-            android:scaleX="0.6"
-            android:scaleY="0.6" />
+            android:scaleX="0.5"
+            android:scaleY="0.5" />
 
     </LinearLayout>
 
