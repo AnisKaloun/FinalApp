@@ -49,7 +49,7 @@ public class FragmentDialogNotif extends DialogFragment{
     private Query query;
     private String articleId;
 
-    private TextView mTitre;
+    private TextView mTitre,mNoteG;
     private TextView mMotcle;
     private TextView mAuteur;
     private Button mTelecharger;
@@ -88,7 +88,7 @@ public class FragmentDialogNotif extends DialogFragment{
         mTitre = getView().findViewById(R.id.titre);
         mAuteur = getView().findViewById(R.id.auteur);
         mMotcle = getView().findViewById(R.id.motcle);
-
+        mNoteG=getView().findViewById(R.id.nbrEtoiles);
         Log.w("notification","je suis dans le Dialog frag");
         ValueEventListener mListener = new ValueEventListener() {
 
@@ -107,7 +107,7 @@ public class FragmentDialogNotif extends DialogFragment{
                         mTitre.setText(article.getTitre());
                         mAuteur.setText(article.getAuteur());
                         mMotcle.setText(article.getMot_cle());
-
+                        mNoteG.setText(""+article.getMoyenne());
                         mLire.setOnClickListener(new View.OnClickListener() {
 
                             @Override

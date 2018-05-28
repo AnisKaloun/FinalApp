@@ -58,7 +58,8 @@ public class ArticlesansnoteAdaptor extends ArrayAdapter<Article>  {
         Button lire = convertView.findViewById(R.id.lirePDF);
         Button mPartager= convertView.findViewById(R.id.partagerPDF);
         Button mTelecharger=convertView.findViewById(R.id.telechargerPDF);
-
+        TextView txt4=convertView.findViewById(R.id.nbrEtoiles);
+        txt4.setText(""+item.getMoyenne());
         final String rec_titre = item.getTitre();
         final String rec_auteur = item.getAuteur();
 
