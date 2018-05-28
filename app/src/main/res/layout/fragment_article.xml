@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,26 +7,22 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="800dp">
+        android:layout_height="409dp">
 
         <ListView
             android:id="@+id/MesArticles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:scrollbarSize="4dp"
-            android:scrollbarThumbVertical="@drawable/scrollbar"
-            android:scrollbars="vertical"
-            tools:context="com.android.pfe.fragment.ArticleFragment">
+            android:layout_alignBottom="@+id/btAddArticle"
+            android:layout_alignEnd="@+id/btAddArticle"
+            android:layout_weight="1" />
 
-        </ListView>
+
 
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="200dp">
+        android:layout_height="414dp">
 
         <Button
             android:id="@+id/AjouterDocument"

@@ -335,6 +335,7 @@ public class User implements Serializable {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists())
                     {
+
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             final Article arti = snapshot.getValue(Article.class);
                             if (arti != null) {
@@ -368,6 +369,7 @@ public class User implements Serializable {
                                                         //içi on as trouvé que c similaire
                                                         Article docR = new Article();
                                                         docR.setArticleId(arti.getArticleId());
+                                                        docR.setVoted(false);
                                                         articleRec.push().setValue(docR);
 
                                                     }
@@ -391,6 +393,7 @@ public class User implements Serializable {
                                                         //içi on as trouvé que c similaire
                                                         Article docR = new Article();
                                                         docR.setArticleId(arti.getArticleId());
+                                                        docR.setVoted(false);
                                                         articleRec.push().setValue(docR);
 
                                                     }

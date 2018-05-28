@@ -1,7 +1,6 @@
 package com.android.pfe.other;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
@@ -19,16 +18,17 @@ public class Article implements Serializable{
     private String articleId;
     private String id;
     private String PdfUrl;
-    @Exclude
-    private int nbrvote;
-    private float note;
+    private Integer nbrvote;
+    private Float note;
+    private Float moyenne;
+    private Boolean voted;
 
     public Article() {
 
 
     }
 
-    public Article(String user, String articleId, String titre, String auteur, String mot_cle, String s) {
+    public Article(String user, String articleId, String titre, String auteur, String mot_cle, String s,int note,int nbrvote,int moyenne) {
 
         this.auteur = auteur;
         this.titre = titre;
@@ -36,8 +36,9 @@ public class Article implements Serializable{
         this.articleId=articleId;
         this.mot_cle=mot_cle;
         this.PdfUrl=s;
-       // this.note=0;
-       // this.nbrvote=0;
+        this.note= Float.valueOf(0);
+        this.nbrvote=0;
+        this.moyenne= Float.valueOf(0);
 
     }
 
@@ -88,14 +89,14 @@ public class Article implements Serializable{
         if(motcle!=null) {
 
 
-            Article dc = new Article(user,id,titre,auteur,motcle,s);
+            Article dc = new Article(user,id,titre,auteur,motcle,s,0,0,0);
             database.child("Article").child(id).setValue(dc);
 
         }
         else
                {
 
-                Article dc = new Article(user,id,titre,auteur,"",s);
+                Article dc = new Article(user,id,titre,auteur,"",s,0,0,0);
                 database.child("Article").child(id).setValue(dc);
 
                }
@@ -125,22 +126,55 @@ public class Article implements Serializable{
         PdfUrl = pdfUrl;
     }
 
-    @Exclude
-    public float getNote() {
+
+    public Float getNote() {
+        if(note!=null)
         return note;
+        return Float.valueOf(0);
     }
-    @Exclude
+
     public void setNote(float note) {
         this.note = note;
     }
-    @Exclude
+
     public int getNbrvote() {
-        return nbrvote;
+        if(nbrvote!=null)return nbrvote;
+        return Integer.valueOf(0);
     }
-    @Exclude
+
     public void setNbrvote(int nbrvote) {
         this.nbrvote = nbrvote;
     }
+
+
+    public Float getMoyenne() {
+        if(moyenne!=null)
+    return moyenne;
+    return Float.valueOf(0);
+    }
+
+    public void setMoyenne(){
+        if(this.getNote()!=0 && this.getNbrvote()!=0)
+        {
+            this.moyenne=(this.getNote()/this.getNbrvote());
+        }
+        else
+        {
+            this.moyenne= Float.valueOf(0);
+        }
+    }
+
+
+    public Boolean isVoted() {
+        return voted;
+    }
+
+
+    public void setVoted(Boolean voted) {
+        this.voted = voted;
+    }
+
+
 }
 
 

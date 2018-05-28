@@ -15,6 +15,7 @@ import com.android.pfe.other.Article;
 import com.android.pfe.other.HomeAdaptor;
 import com.android.pfe.other.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +24,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class HomeFragment extends Fragment {
@@ -78,70 +81,90 @@ public class HomeFragment extends Fragment {
             mDatabase = FirebaseDatabase.getInstance().getReference("User");
             DatabaseReference user = mDatabase.child(auth.getCurrentUser().getUid());
             DatabaseReference keylist = user.child("ArticleRecommande");
+            mydata.clear();
             //reading from the database
-            keylist.addValueEventListener(new ValueEventListener() {
+            keylist.addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey){
+
                     Log.w("HomeFragment","In the listener");
-                    mydata.clear();
-                    if (dataSnapshot.exists()) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+
                             //je lis d'abord les articles recommandé
-                            Log.w("HomeFragment","not empty");
-                            Article article = snapshot.getValue(Article.class);
-                            //article c l'article recommandé qui se trouve dans l'utilisateur
-                            Query listener=FirebaseDatabase.getInstance().getReference("Article").orderByChild("articleId")
-                                    .equalTo(article.getArticleId());
+                            Log.w("HomeFragment", "not empty");
+                            Article article = dataSnapshot.getValue(Article.class);
+                            if (!article.isVoted()) {
+                                //article c l'article recommandé qui se trouve dans l'utilisateur
+                                Query listener = FirebaseDatabase.getInstance().getReference("Article").orderByChild("articleId")
+                                        .equalTo(article.getArticleId());
 
-                            listener.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                listener.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    //içi on rentre dans l'article
-                                    if (dataSnapshot.exists())
-                                    {
-                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                            Article doc=snapshot.getValue(Article.class);
-                                            int size=mydata.size();
-                                            boolean isEqual=false;
-                                            for(int i=0;i<size;i++) {
-                                               Article art=mydata.get(i);
-                                               if(art.getArticleId().equals(doc.getArticleId()))
-                                               {
-                                               isEqual=true;
-                                               }
+                                        //içi on rentre dans l'article
+                                        if (dataSnapshot.exists()) {
+                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                Article doc = snapshot.getValue(Article.class);
+                                                int size = mydata.size();
+                                                boolean isEqual = false;
+                                                for (int i = 0; i < size; i++) {
+                                                    Article art = mydata.get(i);
+                                                    if (art.getArticleId().equals(doc.getArticleId())) {
+                                                        isEqual = true;
+                                                    }
                                                 }
 
-                                             if(!isEqual) {
+                                                if (!isEqual) {
 
-                                                 mydata.add(doc);
-                                             }
+                                                    mydata.add(doc);
+                                                }
+                                            }
+                                            Collections.sort(mydata, new Comparator<Article>() {
+                                                @Override
+                                                public int compare(Article a1, Article a2)
+                                                {
+
+                                                    return Float.compare(a1.getMoyenne(),a2.getMoyenne());
+                                                }
+                                            });
+                                            adaptor.notifyDataSetChanged();
                                         }
-                                        adaptor.notifyDataSetChanged();
+
                                     }
 
-                                }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                                    }
+                                });
 
-                                }
-                            });
+                            }
 
-                        }
-                    }
-                    else
-                    {
-                        //when i first charge the fragment i am here
-                        Log.w("HomeFragment","empty");
 
-                    }
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
+
             });
 
             adaptor.setListener(new HomeAdaptor.onChecked() {

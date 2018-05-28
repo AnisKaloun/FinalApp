@@ -18,6 +18,12 @@ import android.widget.Toast;
 import com.android.pfe.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,6 +43,9 @@ public class HomeAdaptor extends ArrayAdapter<Article>  {
     ArrayList<Article> myList;
     private LayoutInflater mInflater;
     private onChecked listener;
+    private Query mDatabase;
+    private FirebaseAuth mAuth;
+    private Query query;
 
     public HomeAdaptor(Context c, ArrayList<Article> list)
     {
@@ -48,7 +57,7 @@ public class HomeAdaptor extends ArrayAdapter<Article>  {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        mAuth=FirebaseAuth.getInstance();
         final Article item = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_acceuil, parent, false);
@@ -61,21 +70,76 @@ public class HomeAdaptor extends ArrayAdapter<Article>  {
         Button lire = convertView.findViewById(R.id.lirePDF);
         Button mPartager= convertView.findViewById(R.id.partagerPDF);
         Button mTelecharger=convertView.findViewById(R.id.telechargerPDF);
-
-
+        TextView NbrEtoiles=convertView.findViewById(R.id.nbrEtoiles);
         RatingBar etoiles = convertView.findViewById(R.id.etoiles);
+        etoiles.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, final float rating, boolean fromUser) {
+                query= FirebaseDatabase.getInstance().getReference("Article")
+                        .orderByChild("articleId")
+                        .equalTo(item.getArticleId());
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists())
+                        {
+                            for (DataSnapshot snap:dataSnapshot.getChildren())
+                            {
+                             Article article= snap.getValue(Article.class);
+                             article.setNbrvote(article.getNbrvote()+1);
+                             article.setNote(article.getNote()+rating);
+                             article.setMoyenne();
+                             snap.getRef().setValue(article);
+                             mDatabase=FirebaseDatabase.getInstance().getReference("User").child(mAuth.getCurrentUser().getUid())
+                                     .child("ArticleRecommande").orderByChild("articleId").equalTo(item.getArticleId());
+                             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                 @Override
+                                 public void onDataChange(DataSnapshot dataSnapshot) {
+                                     if(dataSnapshot.exists())
+                                     {
+                                         for(DataSnapshot snapshot:dataSnapshot.getChildren())
+                                         {
+                                             Article arti=snapshot.getValue(Article.class);
+                                             arti.setVoted(true);
+                                             snapshot.getRef().setValue(arti);
+                                         }
+                                     }
+                                 }
+
+                                 @Override
+                                 public void onCancelled(DatabaseError databaseError) {
+
+                                 }
+                             });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
 
-        // ************** elle est là la note !!
 
-        double note = etoiles.getRating();
+            }
+        });
+
+
+
+
+
 
         final String rec_titre = item.getTitre();
         final String rec_auteur = item.getAuteur();
 
+
         txt.setText(item.getTitre());
         txt2.setText(item.getAuteur());
         txt3.setText(item.getMot_cle());
+        NbrEtoiles.setText(""+item.getMoyenne());
 
 
         lire.setOnClickListener(new View.OnClickListener() {
