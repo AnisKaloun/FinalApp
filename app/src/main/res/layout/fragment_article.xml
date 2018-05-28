@@ -13,8 +13,6 @@
             android:id="@+id/MesArticles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/btAddArticle"
-            android:layout_alignEnd="@+id/btAddArticle"
             android:layout_weight="1" />
 
 
