@@ -22,6 +22,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 
@@ -59,7 +61,9 @@ public class ArticlesansnoteAdaptor extends ArrayAdapter<Article>  {
         Button mPartager= convertView.findViewById(R.id.partagerPDF);
         Button mTelecharger=convertView.findViewById(R.id.telechargerPDF);
         TextView txt4=convertView.findViewById(R.id.nbrEtoiles);
-        txt4.setText(""+item.getMoyenne());
+        NumberFormat nf = new DecimalFormat("0.#");
+        String s = nf.format(item.getMoyenne());
+        txt4.setText(s);
         final String rec_titre = item.getTitre();
         final String rec_auteur = item.getAuteur();
 

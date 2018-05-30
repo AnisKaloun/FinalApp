@@ -32,6 +32,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -107,7 +109,9 @@ public class FragmentDialogNotif extends DialogFragment{
                         mTitre.setText(article.getTitre());
                         mAuteur.setText(article.getAuteur());
                         mMotcle.setText(article.getMot_cle());
-                        mNoteG.setText(""+article.getMoyenne());
+                        NumberFormat nf = new DecimalFormat("0.#");
+                        String s = nf.format(article.getMoyenne());
+                        mNoteG.setText(s);
                         mLire.setOnClickListener(new View.OnClickListener() {
 
                             @Override

@@ -24,11 +24,13 @@ public class Article implements Serializable{
     private Boolean voted;
 
     public Article() {
-
+        this.note=null;
+        this.nbrvote=null;
+        this.moyenne=null;
 
     }
 
-    public Article(String user, String articleId, String titre, String auteur, String mot_cle, String s,int note,int nbrvote,int moyenne) {
+    public Article(String user, String articleId, String titre, String auteur, String mot_cle, String s) {
 
         this.auteur = auteur;
         this.titre = titre;
@@ -46,6 +48,9 @@ public class Article implements Serializable{
         //constructeur pour les article desireé
         this.mot_cle=map;
         this.titre=titre;
+        this.note=null;
+        this.nbrvote=null;
+        this.moyenne=null;
     }
 
     public Article(String user, String articleId, String titre, String auteur) {
@@ -53,6 +58,9 @@ public class Article implements Serializable{
         this.titre = titre;
         this.id=user;
         this.articleId=articleId;
+        this.note=null;
+        this.nbrvote=null;
+        this.moyenne=null;
     }
 
     public void setId(String id) {
@@ -89,14 +97,14 @@ public class Article implements Serializable{
         if(motcle!=null) {
 
 
-            Article dc = new Article(user,id,titre,auteur,motcle,s,0,0,0);
+            Article dc = new Article(user,id,titre,auteur,motcle,s);
             database.child("Article").child(id).setValue(dc);
 
         }
         else
                {
 
-                Article dc = new Article(user,id,titre,auteur,"",s,0,0,0);
+                Article dc = new Article(user,id,titre,auteur,"",s);
                 database.child("Article").child(id).setValue(dc);
 
                }
@@ -160,7 +168,7 @@ public class Article implements Serializable{
         }
         else
         {
-            this.moyenne= Float.valueOf(0);
+            this.moyenne=Float.valueOf(0);
         }
     }
 

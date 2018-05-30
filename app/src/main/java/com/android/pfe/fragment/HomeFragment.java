@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
                                                 public int compare(Article a1, Article a2)
                                                 {
 
-                                                    return Float.compare(a1.getMoyenne(),a2.getMoyenne());
+                                                    return Float.compare(a2.getMoyenne(),a1.getMoyenne());
                                                 }
                                             });
                                             adaptor.notifyDataSetChanged();

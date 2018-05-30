@@ -29,6 +29,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 
@@ -139,7 +141,9 @@ public class HomeAdaptor extends ArrayAdapter<Article>  {
         txt.setText(item.getTitre());
         txt2.setText(item.getAuteur());
         txt3.setText(item.getMot_cle());
-        NbrEtoiles.setText(""+item.getMoyenne());
+        NumberFormat nf = new DecimalFormat("0.#");
+        String s = nf.format(item.getMoyenne());
+        NbrEtoiles.setText(s);
 
 
         lire.setOnClickListener(new View.OnClickListener() {
